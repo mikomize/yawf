@@ -3,7 +3,6 @@ package yawf.redis;
 
 import js.Node;
 import yawf.reflections.*;
-import yawf.typedefs.Redis;
 
 @:generic
 class RedisSimpleKey<T>  extends RedisKey implements IRedisCacheable
@@ -22,7 +21,7 @@ class RedisSimpleKey<T>  extends RedisKey implements IRedisCacheable
 
 	public function get(callback:T -> Void) {
 		if (data == null) {
-			redis.client.get(key, function (err:Err, res:String) {
+			redis.client.get(key, function (err:Dynamic, res:String) {
 				data = ObjectMapper.fromJsonUntyped(res, classInfo.getField("data").type);
 				clean();
 				callback(data);
@@ -37,9 +36,9 @@ class RedisSimpleKey<T>  extends RedisKey implements IRedisCacheable
 		this.data = data;
 	}
 
-	public function store(callback:Err -> Dynamic -> Void):Void {
+	public function store(callback:Dynamic -> Dynamic -> Void):Void {
 		var serialized:String = serialize();
-		redis.client.set(key, serialized, function (err:Err, res:Bool) {
+		redis.client.set(key, serialized, function (err:Dynamic, res:Bool) {
 			clean();
 			callback(err, res);
 		});

@@ -3,7 +3,6 @@ package yawf.redis;
 
 import minject.Injector;
 import yawf.ObjectMapper;
-import yawf.typedefs.Redis;
 
 @:generic
 class RedisListKey<T> extends RedisKey
@@ -44,7 +43,7 @@ class RedisListKey<T> extends RedisKey
 	}
 
 	public function lpop(callback:T -> Void) {
-		redis.client.lpop(key, function (err:Err, res:String) {
+		redis.client.lpop(key, function (err:Dynamic, res:String) {
 			if (res == null) {
 				callback(null);
 			} else {
@@ -54,7 +53,7 @@ class RedisListKey<T> extends RedisKey
 	}
 
 	public function rpop(callback:T -> Void) {
-		redis.client.rpop(key, function (err:Err, res:String) {
+		redis.client.rpop(key, function (err:Dynamic, res:String) {
 			if (res == null) {
 				callback(null);
 			} else {
@@ -64,7 +63,7 @@ class RedisListKey<T> extends RedisKey
 	}
 
 	public function range(start:Int, end:Int, callback:Array<T> -> Void) {
-		redis.client.lrange(key, start, end, function (err:Err, res:Array<Dynamic>) {
+		redis.client.lrange(key, start, end, function (err:Dynamic, res:Array<Dynamic>) {
 			var z:Array<T> = new Array<T>();
 			for(item in res) {
 				z.push(deserialize(Std.string(item)));
@@ -78,7 +77,7 @@ class RedisListKey<T> extends RedisKey
 	}
 
 	public function length(callback:Int -> Void) {
-		redis.client.llen(key, function (err:Err, res:Int) {
+		redis.client.llen(key, function (err:Dynamic, res:Int) {
 			callback(res);
 		});
 	}

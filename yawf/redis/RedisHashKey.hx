@@ -3,7 +3,6 @@ package yawf.redis;
 
 import minject.Injector;
 import yawf.reflections.*;
-import yawf.typedefs.Redis;
 
 @:generic
 class RedisHashKey<T> extends RedisKey implements IRedisCacheable
@@ -29,7 +28,7 @@ class RedisHashKey<T> extends RedisKey implements IRedisCacheable
 	public function get(id:String, callback:T -> Void):Void {
 		var data:T = cache.get(id);
 		if (data == null) {
-			redis.client.hget(key, id, function (err:Err, res:String) {
+			redis.client.hget(key, id, function (err:Dynamic, res:String) {
 				if (res != null) {
 					data = deserialize(res);
 					cache.set(id, data);
@@ -46,7 +45,7 @@ class RedisHashKey<T> extends RedisKey implements IRedisCacheable
 	}
 
 	public function getKeys(callback:Array<String> -> Void) {
-		redis.client.hkeys(key, function (err:Err, res:Array<String>) {
+		redis.client.hkeys(key, function (err:Dynamic, res:Array<String>) {
 			callback(res);
 		});
 	}
@@ -59,9 +58,9 @@ class RedisHashKey<T> extends RedisKey implements IRedisCacheable
 		cache.set(id, data);
 	}
 
-	public function store(callback:Err -> Dynamic -> Void) {
+	public function store(callback:Dynamic -> Dynamic -> Void) {
 		var i:Int = 0;
-		var e:Err = null;
+		var e:Dynamic = null;
 
 		var toDo:Array<String> = new Array<String>();
 		for (id in cache.keys()) {
@@ -82,7 +81,7 @@ class RedisHashKey<T> extends RedisKey implements IRedisCacheable
 
 		for (id in toDo) {
 			var data:T = cache.get(id);
-			redis.client.hset(key, id, serialize(data), function (err:Err, res:Int) {
+			redis.client.hset(key, id, serialize(data), function (err:Dynamic, res:Int) {
 				e = err;
 				clean(id);
 				onComplete();

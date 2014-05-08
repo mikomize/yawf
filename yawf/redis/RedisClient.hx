@@ -1,11 +1,9 @@
 
-package yawf.typedefs;
+package yawf.redis;
 
 /**
   * Source: https://github.com/blackdog66/bdog-redis
   */
-
-import js.Node;
 
 typedef Err = Dynamic;
 typedef IntegerReply = Err->Int->Void;
@@ -115,18 +113,5 @@ typedef RedisClient = {
   function zunionstore(prms:Array<Dynamic>,cb:IntegerReply):Void;
   function zinterstore(prms:Array<Dynamic>,cb:IntegerReply):Void;
   function sort(prms:Array<Dynamic>,cb:MultiReply):Void;
-}
-
-
-class Redis {
-  
- public static function newClient(port:Int = 6379, host:String = "127.0.0.1", options:Dynamic = null):RedisClient 
- {
- 	 var c:Dynamic = Node.require('redis');
- 	 if (options == null) {
- 	 	options = {};
- 	 }
-    return c.createClient(port, host, options);
-  }
 
 }

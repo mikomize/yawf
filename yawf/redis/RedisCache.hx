@@ -1,7 +1,6 @@
 
 package yawf.redis;
 
-import yawf.typedefs.Redis;
 import yawf.Util;
 import minject.Injector;
 
@@ -58,7 +57,7 @@ class RedisCache
 
 		for (storable in toDo) {
 			trace("storing: " + storable.getKey());
-			storable.store(function (Err, Dynamic) {
+			storable.store(function (Dynamic, Dynamic) {
 				trace("stored dirty key: " + storable.getKey() );
 				onComplete();
 			});

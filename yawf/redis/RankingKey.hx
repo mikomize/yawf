@@ -2,7 +2,6 @@
 package yawf.redis;
 
 import yawf.ObjectMapper;
-import yawf.typedefs.Redis;
 
 @:generic
 class RankingKey<T> extends RedisKey {
@@ -16,22 +15,22 @@ class RankingKey<T> extends RedisKey {
 		super(key);
 	}
 
-	public function add(score:Int, member:T, callback:Err -> Int -> Void) {
+	public function add(score:Int, member:T, callback:Dynamic -> Int -> Void) {
 		redis.client.zadd(key, score, serialize(member), callback);
 	}
 
-	public function remove(member:T, callback:Err -> Int -> Void) {
+	public function remove(member:T, callback:Dynamic -> Int -> Void) {
 		redis.client.zrem(key, serialize(member), callback);
 	}
 
 	public function rangeByScore(min:Int, max:Int, offset:Int, count:Int, callback:Array<Pair<T, Int>> -> Void) {
-		redis.client.zrangebyscore(key, Std.string(min), Std.string(max), "WITHSCORES", "LIMIT", offset, count, function (err:Err, res:Array<Dynamic>) {
+		redis.client.zrangebyscore(key, Std.string(min), Std.string(max), "WITHSCORES", "LIMIT", offset, count, function (err:Dynamic, res:Array<Dynamic>) {
 			callback(format(res));
 		});
 	}
 
 	public function getAll(callback:Array<Pair<T, Int>> -> Void) {
-		redis.client.zrangebyscore(key, '-inf', '+inf', "WITHSCORES", "LIMIT", 0, -1, function (err:Err, res:Array<Dynamic>) {
+		redis.client.zrangebyscore(key, '-inf', '+inf', "WITHSCORES", "LIMIT", 0, -1, function (err:Dynamic, res:Array<Dynamic>) {
 			callback(format(res));
 		});
 	}

@@ -4,7 +4,6 @@ package yawf;
 import yawf.typedefs.Express;
 import yawf.typedefs.ExpressHttpServerReq;
 import yawf.typedefs.ExpressHttpServerResp;
-import yawf.typedefs.Redis;
 import yawf.typedefs.Nconf;
 import yawf.typedefs.Winston;
 import yawf.reflections.*;
@@ -77,7 +76,7 @@ class App
 			logger.info("redis connected to: " + conf.get("redis:ip") + ":" + conf.get("redis:port"));
 			var redisDb:Int = conf.get("redis:db"); 
 			if (redisDb != null) {
-				redisClient.select(redisDb, function(err:Err, res:String) {
+				redisClient.select(redisDb, function(err:Dynamic, res:String) {
 					logger.info("redis db set to: " + redisDb);
 					cb();
 				});

@@ -2,7 +2,6 @@
 package yawf.redis;
 
 import minject.Injector;
-import yawf.typedefs.Redis;
 
 class RedisLayer
 {
