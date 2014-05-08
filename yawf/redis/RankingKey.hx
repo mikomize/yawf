@@ -46,7 +46,7 @@ class RankingKey<T> extends RedisKey {
 	}
 
 	private function serialize(item:T):String {
-		return ObjectMapper.toJsonUntyped(item, classInfo.getField("data").type);
+		return ObjectMapper.toJson(item, classInfo.getField("data").type);
 	}
 
 	private function deserialize(json:String):T {

@@ -21,13 +21,13 @@ class Service
 
 	public function success(msg:Dynamic):Void {
 		var res:Dynamic = getResponseData();
-		res.result = msg;
+		res.result = ObjectMapper.toPlainObject(msg);
 		sendResponse(res);
 	}
 
 	public function error(msg:Dynamic):Void {
 		var res:Dynamic = getResponseData();
-		res.error = msg;
+		res.error = ObjectMapper.toPlainObject(msg);
 		sendResponse(res);
 	}
 
@@ -41,8 +41,12 @@ class Service
 	}
 
 	private function sendResponse(responseData:Dynamic) {
-		logger.verbose("Response:", responseData.result);
-  		//requestData.res.writeHead(200, {"Content-Type": "text/plain"});
+		if (responseData.error == null) {
+			logger.verbose("OK#", responseData.result);
+		} else {
+			logger.verbose("ERROR#", responseData.error);
+		} 
+		
 	    requestData.res.json(Node.stringify(responseData));
   	}	
 

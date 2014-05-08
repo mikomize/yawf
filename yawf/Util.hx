@@ -2,14 +2,48 @@
 package yawf;
 
 import js.Node;
-import framework.redis.*;
+import yawf.reflections.*;
+
 
 class Util
 {
+	public static function getType(obj:Dynamic):TypeEnum {
+		switch(Type.typeof(obj)) {
+			case TBool:
+				return TypeEnum.Bool;
+			case TClass(c): 
+				var name:String = Type.getClassName(c);
+				if(name == "String") {
+					return TypeEnum.String;
+				} else if (name == "haxe.ds.StringMap") {
+					return TypeEnum.Map(null);
+				} else if (name == "Array") {
+					return TypeEnum.Array(null);
+				}
+				return TypeEnum.Class(c);
+			case TEnum(e):
+				return TypeEnum.Enum(e);
+			case TInt:
+				return TypeEnum.Int;
+			case TFunction:
+				return TypeEnum.Function(null, null); //weird as fuck
+			case TNull:
+				return TypeEnum.Null;
+			case TFloat:
+				return TypeEnum.Float;
+			case TObject:
+				trace("TObject");
+				trace("whaat");
+				return TypeEnum.Null;
+			case TUnknown:
+				trace("TUnknown");
+				return TypeEnum.Null;
+		}
+	}
 
 	public static function trace(obj:Dynamic) {
 		var util = Node.require('util');
-		trace(util.inspect(obj, { depth: 99 }));
+		trace(util.inspect(obj, { depth: 99 })); //problems but a bitch ain't one!
 	}
 
 	public static function max(a:Int, b:Int) {

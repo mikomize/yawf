@@ -75,9 +75,12 @@ class ObjectMapper
 		return fromPlainObjectUntyped(data, TypeEnum.Class(c));
 	}
 
-	public static function toPlainObjectUntyped(obj:Dynamic, t:TypeEnum):Dynamic {
+	public static function toPlainObject(obj:Dynamic, t:TypeEnum = null):Dynamic {
 		if (obj == null) {
 			return null;
+		}
+		if (t == null) {
+			t = Util.getType(obj);
 		}
 		switch (t) {
 			case Int:
@@ -96,13 +99,14 @@ class ObjectMapper
 				var res:Dynamic = {};
 				var todo:Map<String, Dynamic> = obj;
 				for(field in todo.keys()) {
-					Reflect.setField(res, field, toPlainObjectUntyped(todo.get(field), t));
+					var fieldValue:Dynamic = todo.get(field);
+					Reflect.setField(res, field, toPlainObject(fieldValue, t));
 				}
 				return res;
 			case Array(t):
 				var res:Array<Dynamic> = new Array<Dynamic>();
 				for (field in cast(obj, Array<Dynamic>)) {
-					res.push(toPlainObjectUntyped(field, t));
+					res.push(toPlainObject(field, t));
 				}
 				return res;
 			case Class(c): 
@@ -115,12 +119,14 @@ class ObjectMapper
 						fieldName = field.getMeta("param")[0];
 					}
 					var fieldData:Dynamic = Reflect.field(obj, field.name);
-					Reflect.setField(res, fieldName, toPlainObjectUntyped(fieldData, field.type));
+					Reflect.setField(res, fieldName, toPlainObject(fieldData, field.type));
 				}
 				//maybe some "additional data" annotation flag?
 				//prefix annotatnion data to change "_"?
 				for (meta in classInfo.meta.keys()) {
-					Reflect.setField(res, "_" + meta, classInfo.meta.get(meta)[0]);
+					if (meta.charAt(0) != ":") {
+						Reflect.setField(res, "_" + meta, classInfo.meta.get(meta)[0]);
+					}
 				}
 				return res;
 			case Function(args, ret):
@@ -128,17 +134,8 @@ class ObjectMapper
 		}
 	}
 
-	public static function toPlainObject(obj:Dynamic):Dynamic {
-		var c:Class<Dynamic> = Type.getClass(obj);
-		return toPlainObjectUntyped(obj, TypeEnum.Class(c));
-	}
-
-	public static function toJson(obj:Dynamic):String {
-		return Node.stringify(toPlainObject(obj));
-	}
-
-	public static function toJsonUntyped(obj:Dynamic, t:TypeEnum):String {
-		return Node.stringify(toPlainObjectUntyped(obj, t));
+	public static function toJson(obj:Dynamic, t:TypeEnum = null):String {
+		return Node.stringify(toPlainObject(obj), t);
 	}
 
 }

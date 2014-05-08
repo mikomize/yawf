@@ -32,4 +32,9 @@ class RedisLayer
 		injector.injectInto(cache);
 	}
 
+
+	public function getUID(generatorName:String = "uidGen") {
+		
+	}
+
 }

@@ -50,6 +50,10 @@ class RedisCache
 			}
 		}
 
+		if (toDo.length == 0) {
+			cb();
+		}
+
 		var onComplete:Void -> Void = Util.after(toDo.length, cb);
 
 		for (storable in toDo) {
