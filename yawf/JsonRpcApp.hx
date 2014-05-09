@@ -57,26 +57,21 @@ class JsonRpcApp extends App
 						beforeCb();
 					}
 				}
-
-				if (conf.get("debug") == true) {
-					toRun();
-				} else {
-					d.on('error', function(err) {
-						try {
-							throw(err);
-						} catch (e:String) {
-							logger.error(e);
-							service.error(e);
-						} catch (e:Dynamic) {
-							var msg:String = "Unhandled error";
-							logger.error(msg);
-							service.error(msg);
-							throw (e);
-						}
-						
-					});
-					d.run(toRun);
-				}
+				d.on('error', function(err) {
+					try {
+						throw(err);
+					} catch (e:String) {
+						logger.error(e);
+						service.error(e);
+					} catch (e:Dynamic) {
+						var msg:String = "Unhandled error";
+						logger.error(msg);
+						service.error(msg);
+						throw (e);
+					}
+					
+				});
+				d.run(toRun);
 			}
 			endpoints.set(key, func);
 		}
@@ -113,7 +108,8 @@ class JsonRpcApp extends App
 			var name:String = Std.string(req.body.method);
 			var func:ExpressHttpServerReq -> ExpressHttpServerResp -> Void = endpoints.get(name); 
 			if (func == null) {
-				throw "theres is no: " + name + " defined";
+				req.json(404, name + "Not found");
+				logger.error(name + "Not found");
 			} else {
 				func(req,res);
 			}
@@ -127,11 +123,6 @@ class JsonRpcApp extends App
 			}
 		});
 		super.start();
-	}
-
-	override private function getArgForCall(index:Int, name:String, type:TypeEnum, requestData:RequestData):Dynamic {
-		var data:JsonRpcRequestData = cast(requestData, JsonRpcRequestData);
-		return data.params.shift();
 	}
 
 	override private function createRequestData(req:ExpressHttpServerReq, res:ExpressHttpServerResp):RequestData {

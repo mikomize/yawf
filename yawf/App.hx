@@ -134,40 +134,6 @@ class App
 		logger.info("listening at: " + conf.get("ip") + ":" + conf.get("port"));
 	}
 
-	private function call(controller:Dynamic, func:ClassFieldInfo, requestData:RequestData) {
-		var callArgs:Array<Dynamic> = new Array<Dynamic>();
-
-		switch(func.type) {
-			case Function(args, ret):
-				var i:Int = 0;
-				for (arg in args) {
-					var argForCall:Dynamic = getArgForCall(i, arg.name, arg.type, requestData);
-					switch (arg.type) {
-						case Int: 
-							callArgs.push(Std.parseInt(argForCall));
-						case Float: 
-						callArgs.push(Std.parseFloat(argForCall));
-						case String:
-							callArgs.push(argForCall);
-						case Class(c):
-							callArgs.push(ObjectMapper.fromPlainObjectUntyped(argForCall, TypeEnum.Class(c)));
-						default:
-							throw "unsuported type of argument " + arg.name + " in function " + func.name;
-					}
-					i++;
-				}
-			default:
-				throw func.name + " should be a function";
-
-		}
-
-		Reflect.callMethod(controller, Reflect.field(controller, func.name), callArgs);
-	}
-
-	private function getArgForCall(index:Int, name:String, type:TypeEnum, requestData:RequestData):Dynamic {
-		return requestData.req.param(name);
-	}
-
 	private function createInjector(requestData:RequestData):Injector {
 		var injector:Injector = new Injector();
 		injector.mapValue(Injector, injector);
