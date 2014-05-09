@@ -1,0 +1,14 @@
+{
+  "name": "yawf",
+  "license": "LGPL",
+  "tags": ["web","jsonrpc","nodejs","node.js","js","json","mapper"],
+  "description": "Some stuff for nodejs",
+  "contributors": ["miko"],
+  "releasenote": "Initial release, i don't expect it to work",
+  "version": "0.1.0",
+  "url": "https://github.com/mikomize/yawf",
+  "dependencies": {
+    "minject": "",
+    "nodejs": ""
+  }
+}

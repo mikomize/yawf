@@ -1,6 +1,0 @@
--js Test.js
--main Test
--lib minject 
--D minject
--lib nodejs
--D nodejs
