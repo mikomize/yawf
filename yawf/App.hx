@@ -42,7 +42,8 @@ class App
 					"colorize": true,
 					"timestamp": true
 				}
-			}
+			},
+			"debug": false
 		};
 	}
 
@@ -116,6 +117,10 @@ class App
 		setUpConf();
 		createLogger();
 		logger.info("initializing");
+		if (conf.get("debug")) {
+			logger.info("running in debug mode");
+		}
+		
 		express = Type.createInstance(Node.require("express"), []);
 		
 		setUpRedis(function () {
@@ -141,7 +146,7 @@ class App
 						case Int: 
 							callArgs.push(Std.parseInt(argForCall));
 						case Float: 
-							callArgs.push(Std.parseFloat(argForCall));
+						callArgs.push(Std.parseFloat(argForCall));
 						case String:
 							callArgs.push(argForCall);
 						case Class(c):

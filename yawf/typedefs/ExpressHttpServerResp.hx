@@ -2,6 +2,6 @@
 package yawf.typedefs;
 
 extern class ExpressHttpServerResp {
-	function send(value : Dynamic) : Void;
-	function json(value : Dynamic) : Void;
+	function send(?status:Int, value : Dynamic) : Void;
+	function json(?status:Int, value : Dynamic) : Void;
 }

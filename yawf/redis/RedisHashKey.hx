@@ -107,7 +107,7 @@ class RedisHashKey<T> extends RedisKey implements IRedisCacheable
 	}
 
 	private function serialize(item:T):String {
-		return ObjectMapper.toJson(item, classInfo.getField("data").type);
+		return ObjectMapper.toJson(item);
 	}
 
 	private function deserialize(json:String):T {

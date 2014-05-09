@@ -11,6 +11,15 @@ class Reflection
 
 	}
 
+	public static function getFuncArgs(func:ClassFieldInfo):List<FuncArg> {
+		switch(func.type) {
+			case Function(args, ret):
+				return args;
+			default:
+				return null;
+		}
+	}
+
 	public static function getType(type:CType):TypeEnum {
 		if(type == null) {
 			return TypeEnum.Null;
@@ -21,7 +30,7 @@ class Reflection
 			case CFunction(funcArgs, ret):
 	    		var argsList:List<FuncArg> = new List<FuncArg>();
 				for (arg in funcArgs) {
-					argsList.push({type: getType(arg.t), name: arg.name, opt:arg.opt});
+					argsList.add({type: getType(arg.t), name: arg.name, opt:arg.opt});
 				}
 				return TypeEnum.Function(argsList, getType(ret));
 			case CEnum(path, params): 

@@ -23,8 +23,14 @@ class ObjectMapper
 		}
 		switch (t) {
 			case Int:
+				if (Std.is(data, Int)) {
+					return data;
+				}
 				return Std.parseInt(data);
 			case Float:
+				if (Std.is(data, Float)) {
+					return data;
+				}
 				return Std.parseFloat(data);
 			case String:
 				return Std.string(data);
@@ -63,7 +69,12 @@ class ObjectMapper
 					}
 					var fieldData:Dynamic = Reflect.field(data, fieldName);
 					var notNull:Bool = field.getMeta("notNull") != null;
-					Reflect.setField(obj, field.name, fromPlainObjectUntyped(fieldData, field.type, notNull));
+
+					if (!notNull &&  data != null && !Reflect.hasField(data, fieldName)) {
+
+					} else {
+						Reflect.setField(obj, field.name, fromPlainObjectUntyped(fieldData, field.type, notNull));
+					}
 				}
 				return obj;
 
@@ -94,7 +105,7 @@ class ObjectMapper
 			case Null:
 			 return obj;
 			case Enum(e):
-				return Std.string(e);
+				return Std.string(obj);
 			case Map(t):
 				var res:Dynamic = {};
 				var todo:Map<String, Dynamic> = obj;
@@ -109,7 +120,7 @@ class ObjectMapper
 					res.push(toPlainObject(field, t));
 				}
 				return res;
-			case Class(c): 
+			case Class(c):
 				var res:Dynamic = {};
 				var classInfo:ClassInfo = Reflection.getClassInfo(c);
 				var fields:Array<ClassFieldInfo> = classInfo.getFieldsByMeta("param");
@@ -137,5 +148,6 @@ class ObjectMapper
 	public static function toJson(obj:Dynamic, t:TypeEnum = null):String {
 		return Node.stringify(toPlainObject(obj), t);
 	}
+
 
 }

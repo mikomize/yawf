@@ -42,12 +42,12 @@ class Service
 
 	private function sendResponse(responseData:Dynamic) {
 		if (responseData.error == null) {
-			logger.verbose("OK#", responseData.result);
+			logger.verbose("OK#" + Node.stringify(responseData.result));
 		} else {
-			logger.verbose("ERROR#", responseData.error);
+			logger.verbose("ERROR#", Node.stringify(responseData.error));
 		} 
 		
-	    requestData.res.json(Node.stringify(responseData));
+	    requestData.res.json(200, responseData);
   	}	
 
 }

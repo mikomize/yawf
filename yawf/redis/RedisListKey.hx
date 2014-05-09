@@ -83,7 +83,7 @@ class RedisListKey<T> extends RedisKey
 	}
 
 	private function serialize(item:T):String {
-		return ObjectMapper.toJson(item, classInfo.getField("data").type);
+		return ObjectMapper.toJson(item);
 	}
 
 	private function deserialize(json:String):T {
