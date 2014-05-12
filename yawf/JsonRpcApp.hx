@@ -108,7 +108,7 @@ class JsonRpcApp extends App
 			var name:String = Std.string(req.body.method);
 			var func:ExpressHttpServerReq -> ExpressHttpServerResp -> Void = endpoints.get(name); 
 			if (func == null) {
-				req.json(404, name + "Not found");
+				res.json(404, name + "Not found");
 				logger.error(name + "Not found");
 			} else {
 				func(req,res);
