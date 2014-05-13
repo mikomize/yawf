@@ -1,0 +1,15 @@
+{
+	"name": "yawf",
+	"description": "npm modules dependencies for yawf",
+	"dependencies": {
+		"body-parser": "1.0.2",
+		"express" : "4.1.1",
+		"hiredis" : "0.1.15",
+		"nconf" : "0.6.9",
+		"redis" : "0.9.1",
+		"serve-static": "1.1.0",
+		"winston" : "0.7.2",
+		"winston-syslog": "0.2.2",
+		"xml2js": "0.4.0"
+	}
+}
