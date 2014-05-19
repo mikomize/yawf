@@ -78,6 +78,7 @@ class XMLParser
 	private static function processObj(obj:Dynamic):Dynamic {
 		var hashField:String = Reflect.field(obj, 'map');
 		var arrField:String = Reflect.field(obj, 'array');
+		var fileField:String = Reflect.field(obj, 'file');
 		if (hashField != null) {
 			var id:String = Reflect.field(obj, 'indexId');
 			if (id == null) {
@@ -110,6 +111,9 @@ class XMLParser
 			}
 
 			return tmp;
+		} else if (fileField != null) {
+			var result = Node.fs.readFileSync(fileField);
+			return result;
 		}
 		
 		return obj;
