@@ -6,6 +6,8 @@ import js.Node;
 class XMLParser 
 {
 
+	public static var baseFilesPath:String = ".";
+
 	public static function parse(xml, callback:Dynamic -> Void) {
 		var xml2js = Node.require('xml2js');
     	var parser = xml2js.Parser({
@@ -112,7 +114,7 @@ class XMLParser
 
 			return tmp;
 		} else if (fileField != null) {
-			var result = Node.fs.readFileSync(fileField);
+			var result = Node.fs.readFileSync(baseFilesPath + "/" + fileField);
 			return result;
 		}
 		
