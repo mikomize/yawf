@@ -75,9 +75,9 @@ class App
 	//@see https://github.com/flatiron/nconf
 	private function setUpConf():Void {
 		conf = Node.require("nconf");
-		conf.argv();
-		var env:String = conf.get("env");
-		var configs:String = conf.get("configs");
+		conf.env();
+		var env:String = conf.get("APP_CONFIG");
+		var configs:String = conf.get("APP_CONFIGS_DIR");
 		if (configs == null) {
 			configs = "configs/";
 		}
