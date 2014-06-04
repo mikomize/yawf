@@ -23,7 +23,7 @@ class App
 	private var logger:WinstonLogger;
 
 	private function getDirName() {
-		return Node.path.dirname(Node.process.argv[1]);
+		return untyped __dirname;
 	}
 
 	private function getDefaults():Dynamic {
