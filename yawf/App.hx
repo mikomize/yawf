@@ -22,7 +22,8 @@ class App
 
 	private var logger:WinstonLogger;
 
-
+	private var mainConfigPath:String;
+	private var envConfigPath:String;
 
 	private function getDefaults():Dynamic {
 		return {
@@ -68,8 +69,17 @@ class App
 		if (configs == null) {
 			configs = "configs/";
 		}
-		conf.add("env", {type: "file", file: Util.resolvePath(configs + env + ".json")});
-		conf.add("main", {type: "file", file: Util.resolvePath(configs + "main.json")});
+		if (env != "") {
+			envConfigPath = Util.resolvePath(configs + env + ".json";
+			if(Util.fileExists(envConfigPath)) {
+				conf.add("env", {type: "file", file: envConfigPath)});
+			} else {
+				throw "specified config: " + envConfigPath + " does not exists";
+			}
+		}
+
+		mainConfigPath = Util.resolvePath(configs + "main.json");
+		conf.add("main", {type: "file", file: mainConfigPath)});
 		conf.defaults(getDefaults());
 		conf.set("configs", configs);
 		
@@ -122,6 +132,9 @@ class App
 		createLogger();
 		logger.info("initializing");
 		logger.info("configs loaded from: " + Util.resolvePath(conf.get("configs")));
+		if (envConfigPath != null) {
+			logger.ingo("specified config loaded from: " + envConfigPath);
+	 	}
 		var env:String = conf.get("env");
 		if (env != null) {
 			logger.info("env: " +  env);

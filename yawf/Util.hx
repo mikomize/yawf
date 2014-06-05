@@ -119,4 +119,9 @@ class Util
 		return res;
 	}
 
+	public static function fileExists(path:String):Bool {
+		var fs:Dynamic = Node.require("fs");
+		return fs.existsSync(path);
+	}
+
 }	
