@@ -22,9 +22,7 @@ class App
 
 	private var logger:WinstonLogger;
 
-	private function getDirName() {
-		return untyped __dirname;
-	}
+
 
 	private function getDefaults():Dynamic {
 		return {
@@ -48,28 +46,17 @@ class App
 		};
 	}
 
-
     //@see https://github.com/expressjs/serve-static/blob/master/index.js
 	private function setStatics():Void {
 		var statics:Array<Array<String>> = conf.get("statics");
 		var serve = Node.require("serve-static");
 		if (statics != null) {
 			for (s in statics) {
-				var resolvedPath:String = resolvePath(s[1]);
+				var resolvedPath:String = Util.resolvePath(s[1]);
 				logger.info("mounted dir: " + resolvedPath + " at " + s[0]);
 				express.use(s[0], serve(resolvedPath));
 			}
 		}
-	}
-
-	private function resolvePath(to:String):String {
-		var res:String;
-		if (to.charAt(0) != "/") {
-			res = getDirName() + '/' + to;
-		} else {
-			res = to;
-		}
-		return res;
 	}
 
 	//@see https://github.com/flatiron/nconf
@@ -81,8 +68,8 @@ class App
 		if (configs == null) {
 			configs = "configs/";
 		}
-		conf.add("env", {type: "file", file: resolvePath(configs + env + ".json")});
-		conf.add("main", {type: "file", file: resolvePath(configs + "main.json")});
+		conf.add("env", {type: "file", file: Util.resolvePath(configs + env + ".json")});
+		conf.add("main", {type: "file", file: Util.resolvePath(configs + "main.json")});
 		conf.defaults(getDefaults());
 		conf.set("configs", configs);
 		
@@ -117,7 +104,7 @@ class App
 			//resolving path in config
 			if (Reflect.hasField(loggerConf, "filename")) {
 				var filename:String = Reflect.field(loggerConf, "filename");
-				filename = resolvePath(filename);
+				filename = Util.resolvePath(filename);
 				Reflect.setField(loggerConf, "filename", filename);
 			}
 			transports.push(Type.createInstance(loggerClass, [loggerConf]));
@@ -134,7 +121,7 @@ class App
 		setUpConf();
 		createLogger();
 		logger.info("initializing");
-		logger.info("configs loaded from: " + resolvePath(conf.get("configs")));
+		logger.info("configs loaded from: " + Util.resolvePath(conf.get("configs")));
 		var env:String = conf.get("env");
 		if (env != null) {
 			logger.info("env: " +  env);

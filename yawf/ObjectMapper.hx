@@ -41,7 +41,11 @@ class ObjectMapper
 			case Function(args, ret):
 				throw "dunno how to map function, call some wizard or shit";
 			case Enum(e):
-				return Type.createEnum(e, Std.string(data));
+				try {
+					return Type.createEnum(e, Std.string(data));
+				} catch (ex:Dynamic) {
+					throw "enum " + Type.getEnumName(e) + " has no constr " + Std.string(data);
+				}
 			case Map(t):
 				var res:Map<String, Dynamic> = new Map<String, Dynamic>();
 				for(field in Reflect.fields(data)) {

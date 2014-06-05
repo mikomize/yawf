@@ -114,7 +114,7 @@ class XMLParser
 
 			return tmp;
 		} else if (fileField != null) {
-			var result = Node.fs.readFileSync(baseFilesPath + "/" + fileField);
+			var result = Node.fs.readFileSync(Util.resolvePath(baseFilesPath) + "/" + fileField);
 			return result;
 		}
 		
