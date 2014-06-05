@@ -70,16 +70,16 @@ class App
 			configs = "configs/";
 		}
 		if (env != null) {
-			envConfigPath = Util.resolvePath(configs + env + ".json";
+			envConfigPath = Util.resolvePath(configs + env + ".json");
 			if(Util.fileExists(envConfigPath)) {
-				conf.add("env", {type: "file", file: envConfigPath)});
+				conf.add("env", {type: "file", file: envConfigPath});
 			} else {
 				throw "specified config: " + envConfigPath + " does not exists";
 			}
 		}
 
 		mainConfigPath = Util.resolvePath(configs + "main.json");
-		conf.add("main", {type: "file", file: mainConfigPath)});
+		conf.add("main", {type: "file", file: mainConfigPath});
 		conf.defaults(getDefaults());
 		conf.set("configs", configs);
 		
@@ -133,7 +133,7 @@ class App
 		logger.info("initializing");
 		logger.info("configs loaded from: " + Util.resolvePath(conf.get("configs")));
 		if (envConfigPath != null) {
-			logger.ingo("specified config loaded from: " + envConfigPath);
+			logger.info("specified config loaded from: " + envConfigPath);
 	 	}
 		var env:String = conf.get("env");
 		if (env != null) {
