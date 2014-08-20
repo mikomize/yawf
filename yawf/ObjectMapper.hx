@@ -1,19 +1,20 @@
 
 package yawf;
 
-import js.Node;
 import yawf.reflections.*;
+
+import haxe.Json;
 
 class ObjectMapper 
 {
 
 	@:generic public static function fromJson<T>(json:String, c:Class<T>):T {
-		var data:Dynamic = Node.parse(json);
+		var data:Dynamic = Json.parse(json);
 		return fromPlainObject(data, c);
 	}
 
 	public static function fromJsonUntyped(json:String, t:TypeEnum, notNull:Bool = false):Dynamic {
-		var data:Dynamic = Node.parse(json);
+		var data:Dynamic = Json.parse(json);
 		return fromPlainObjectUntyped(data, t, notNull);
 	}
 
@@ -150,7 +151,7 @@ class ObjectMapper
 	}
 
 	public static function toJson(obj:Dynamic, t:TypeEnum = null):String {
-		return Node.stringify(toPlainObject(obj), t);
+		return Json.stringify(toPlainObject(obj, t));
 	}
 
 

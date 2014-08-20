@@ -8,7 +8,6 @@
   "version": "0.2.21",
   "url": "https://github.com/mikomize/yawf",
   "dependencies": {
-    "minject": "",
-    "nodejs": ""
+    "minject": ""
   }
 }

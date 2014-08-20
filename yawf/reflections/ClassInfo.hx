@@ -3,7 +3,7 @@ package yawf.reflections;
 
 import haxe.rtti.*;
 import haxe.rtti.CType;
-import js.Node;
+import haxe.Json;
 
 class ClassInfo 
 {
@@ -52,7 +52,7 @@ class ClassInfo
 		for (m in classDef.meta) {
 			var tmp:Array<String> = new Array<String>();
 			for(param in m.params) {
-				tmp.push(Node.parse(param));
+				tmp.push(Json.parse(param));
 			}
 			meta.set(m.name, tmp);
 		}
