@@ -4,8 +4,8 @@
   "tags": ["web","jsonrpc","nodejs","node.js","js","json","mapper"],
   "description": "Some stuff for nodejs",
   "contributors": ["miko"],
-  "releasenote": "fixes,",
-  "version": "0.2.1.22",
+  "releasenote": "minor,",
+  "version": "0.2.23",
   "url": "https://github.com/mikomize/yawf",
   "dependencies": {
     "minject": ""
