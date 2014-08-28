@@ -153,6 +153,7 @@ class App
 	}
 
 	public function start() {
+		express.enable('trust proxy');
 		express.listen(conf.get("port"), conf.get("ip"));
 		logger.info("listening at: " + conf.get("ip") + ":" + conf.get("port"));
 	}
