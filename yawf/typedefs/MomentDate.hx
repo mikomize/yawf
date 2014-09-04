@@ -1,5 +1,5 @@
 
-package yawf.typedefs; ;
+package yawf.typedefs;
 
 extern class MomentDate {
 	function new(timestamp:Int);
