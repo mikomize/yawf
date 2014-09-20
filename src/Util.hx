@@ -3,10 +3,6 @@ package yawf;
 
 import yawf.reflections.*;
 
-#if NODEJS
-import js.Node;
-#end
-
 class Util
 {
 	public static function getType(obj:Dynamic):TypeEnum {
@@ -43,12 +39,9 @@ class Util
 		}
 	}
 
-#if NODEJS
 	public static function trace(obj:Dynamic) {
-		var util = Node.require('util');
-		trace(util.inspect(obj, { depth: 99 })); //problems but a bitch ain't one!
+		trace(obj);
 	}
-#end
 
 	public static function max(a:Int, b:Int) {
 		if (a > b) {
@@ -122,12 +115,5 @@ class Util
 		}
 		return res;
 	}
-
-#if NODEJS
-	public static function fileExists(path:String):Bool {
-		var fs:Dynamic = Node.require("fs");
-		return fs.existsSync(path);
-	}
-#end
 
 }	

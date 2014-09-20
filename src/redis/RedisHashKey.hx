@@ -4,6 +4,8 @@ package yawf.redis;
 import minject.Injector;
 import yawf.reflections.*;
 
+import yawf.node.Util
+
 @:generic
 class RedisHashKey<T> extends RedisKey implements IRedisCacheable
 {

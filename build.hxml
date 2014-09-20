@@ -1,0 +1,7 @@
+-js main.js
+-main Main
+-lib minject 
+-D minject
+-lib nodejs
+-D nodejs
+--macro include('yawf')

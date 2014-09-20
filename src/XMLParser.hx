@@ -3,6 +3,8 @@ package yawf;
 
 import js.Node;
 
+import yawf.node.Util
+
 class XMLParser 
 {
 

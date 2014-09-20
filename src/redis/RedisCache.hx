@@ -1,7 +1,7 @@
-
+ 
 package yawf.redis;
 
-import yawf.Util;
+import yawf.node.Util;
 import minject.Injector;
 
 class RedisCache 

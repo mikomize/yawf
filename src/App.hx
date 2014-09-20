@@ -10,6 +10,7 @@ import yawf.reflections.*;
 import yawf.redis.*;
 import minject.Injector;
 import js.Node;
+import yawf.node.Util
 
 class App 
 {
@@ -156,6 +157,7 @@ class App
 		express.enable('trust proxy');
 		express.listen(conf.get("port"), conf.get("ip"));
 		logger.info("listening at: " + conf.get("ip") + ":" + conf.get("port"));
+		logger.
 	}
 
 	private function createInjector(requestData:RequestData):Injector {
