@@ -4,6 +4,4 @@
 -D minject
 -lib nodejs
 -D nodejs
-
--cp src
 --macro include('yawf')
