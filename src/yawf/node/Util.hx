@@ -3,7 +3,7 @@ package yawf.node;
 
 import js.Node;
 
-class Util extends yawf.Util
+class Util
 {
 
 	public static function trace(obj:Dynamic) {
@@ -16,5 +16,18 @@ class Util extends yawf.Util
 		return fs.existsSync(path);
 	}
 	
+	public static function getDirName():String {
+		return untyped __dirname;
+	}
+
+	public static function resolvePath(to:String):String {
+		var res:String;
+		if (to.charAt(0) != "/") {
+			res = getDirName() + '/' + to;
+		} else {
+			res = to;
+		}
+		return res;
+	}
 
 }

@@ -53,7 +53,7 @@ class RedisCache
 			cb();
 		}
 
-		var onComplete:Void -> Void = Util.after(toDo.length, cb);
+		var onComplete:Void -> Void = yawf.Util.after(toDo.length, cb);
 
 		for (storable in toDo) {
 			trace("storing: " + storable.getKey());

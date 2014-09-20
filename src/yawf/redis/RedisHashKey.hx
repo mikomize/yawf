@@ -4,7 +4,7 @@ package yawf.redis;
 import minject.Injector;
 import yawf.reflections.*;
 
-import yawf.node.Util
+import yawf.node.Util;
 
 @:generic
 class RedisHashKey<T> extends RedisKey implements IRedisCacheable
@@ -77,7 +77,7 @@ class RedisHashKey<T> extends RedisKey implements IRedisCacheable
 			return;
 		} 
 
-		var onComplete:Void -> Void = Util.after(toDo.length, function () {
+		var onComplete:Void -> Void = yawf.Util.after(toDo.length, function () {
 			callback(e, null);
 		});
 
