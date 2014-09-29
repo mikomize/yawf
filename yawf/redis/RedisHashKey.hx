@@ -22,6 +22,7 @@ class RedisHashKey<T> extends RedisKey implements IRedisCacheable
 	private var data:T;
 
 	public function new(key:String) {
+		trace("called redis hash key constr: " + key);
 		cache = new Map<String, T>();
 		checks = new Map<String, String>();
 		super(key);
