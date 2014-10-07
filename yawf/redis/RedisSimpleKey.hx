@@ -40,6 +40,7 @@ class RedisSimpleKey<T>  extends RedisKey implements IRedisCacheable
 		var serialized:String = serialize();
 		redis.client.set(key, serialized, function (err:Dynamic, res:Bool) {
 			trace("stroing simple key");
+			trace(key);
 			trace(serialized);
 			trace(err);
 			trace(res);
