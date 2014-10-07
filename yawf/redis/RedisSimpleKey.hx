@@ -53,7 +53,7 @@ class RedisSimpleKey<T>  extends RedisKey implements IRedisCacheable
 	}
 
 	private function serialize():String {
-		return ObjectMapper.toJsonUntyped(data, classInfo.getField("data").type);
+		return ObjectMapper.toJson(data, classInfo.getField("data").type);
 	}
 
 }
