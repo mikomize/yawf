@@ -58,6 +58,10 @@ class Util
 	}
 
 	public static function after(count:Int , func:Void -> Void):Void -> Void {
+		if (count == 0) {
+			func();
+			return null;
+		}
 		var done:Int = 0;
 		return function () {
 			done++;
