@@ -72,11 +72,6 @@ class RedisHashKey<T> extends RedisKey implements IRedisCacheable
 			
 		}
 
-		if (toDo.length == 0) {
-			callback(e, null);
-			return;
-		} 
-
 		var onComplete:Void -> Void = yawf.Util.after(toDo.length, function () {
 			callback(e, null);
 		});
