@@ -20,7 +20,7 @@ class RankingKey<T> extends RedisKey {
 	}
 
 	public function incrementScore(amount:Int, member:T, callback:Dynamic -> Int -> Void):Void {
-		redis.client.zincrby(key, amount, serialize(member), callback);:
+		redis.client.zincrby(key, amount, serialize(member), callback);
 	}
 
 	public function remove(member:T, callback:Dynamic -> Int -> Void) {
