@@ -15,8 +15,12 @@ class RankingKey<T> extends RedisKey {
 		super(key);
 	}
 
-	public function add(score:Int, member:T, callback:Dynamic -> Int -> Void) {
+	public function add(score:Int, member:T, callback:Dynamic -> Int -> Void):Void {
 		redis.client.zadd(key, score, serialize(member), callback);
+	}
+
+	public function incrementScore(amount:Int, member:T, callback:Dynamic -> Int -> Void):Void {
+		redis.client.zincrby(key, amount, serialize(member), callback);:
 	}
 
 	public function remove(member:T, callback:Dynamic -> Int -> Void) {
