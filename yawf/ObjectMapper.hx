@@ -148,9 +148,8 @@ class ObjectMapper
 			case Function(args, ret):
 				throw "dunno how to map function, call some wizard or shit";
 				return null;
-
-			return null; //XXX w/e 
 		}
+		return null; //XXX w/e
 	}
 
 	public static function toJson(obj:Dynamic, t:TypeEnum = null):String {
