@@ -54,6 +54,16 @@ class RedisObjectListKey<T>  extends RedisListKey<PackedDataObject> {
 		});
 	}
 
+	public function getAll(callback:Array<T> -> Void) {
+		super.all(function (packedAll:Array<PackedDataObject>) {
+			var res:Array<T> = new Array<T>();
+			for (packed in packedAll) {
+				res.push(unpack(packed));
+			}
+			callback(res);
+		});
+	}
+
 	private function unpack(packed:PackedDataObject):T {
 		var packedClass:Class<Dynamic> = Type.resolveClass(packed.className);
 		return ObjectMapper.fromJsonUntyped(packed.data, TypeEnum.Class(packedClass));

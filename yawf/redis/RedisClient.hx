@@ -38,7 +38,8 @@ typedef RedisClient = {
   function flushall(cb:StatusReply):Void;
   
   // strings
-  function set(k:String,v:String, ?nx:String, ?ex:String, ?time:Int,cb:BulkReply):Void;
+  @:overload(function(k:String,v:String,cb:BulkReply):Void{})
+  function set(k:String,v:String, nx:String, ex:String, time:Int,cb:BulkReply):Void;
   function get(k:String,cb:StatusReply):Void;
   function incr(k:String,cb:IntegerReply):Void;
   function incrby(k:String,by:Int,cb:IntegerReply):Void;

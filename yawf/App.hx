@@ -155,8 +155,27 @@ class App
 
 	public function start() {
 		express.enable('trust proxy');
-		express.listen(conf.get("port"), conf.get("ip"));
+		var ssl:Dynamic = conf.get("ssl");
+
+		var server:NodeHttpServer;
+		if (ssl == null) {
+			server = Node.http.createServer(untyped express);
+		} else {
+			//not tested at all
+			logger.info("using ssl");
+			var toRead:Array<String> = ["pfx", "key", "cert", "ca"];
+			for (r in toRead) {
+				var field:String = Reflect.field(ssl, r);
+				if (field != null) {
+					logger.info(r + ", reading file: " + Util.resolvePath(field));
+					var tmp:String = Node.fs.readFileSync(Util.resolvePath(field));
+					Reflect.setField(ssl, r, tmp);
+				}
+			}
+			server = Node.https.createServer(untyped ssl, untyped express);
+		}
 		logger.info("listening at: " + conf.get("ip") + ":" + conf.get("port"));
+		server.listen(conf.get("port"), conf.get("ip"));
 	}
 
 	private function createInjector(requestData:RequestData):Injector {
