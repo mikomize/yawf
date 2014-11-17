@@ -14,7 +14,7 @@ class WebApp extends App
 {
 	override public function start() {
 		var bodyParser = Node.require('body-parser');
-		express.use(bodyParser());
+		express.use(bodyParser.urlencoded());
 		express.use("/", function (err, req, res, next) {
 			if (err == null) {
 				next(null);
