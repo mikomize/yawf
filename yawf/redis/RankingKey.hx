@@ -15,7 +15,40 @@ class RankingKey<T> extends RedisKey {
 		super(key);
 	}
 
-	public function add(score:Int, member:T, callback:Dynamic -> Int -> Void):Void {
+/* Floating point stuff */
+	public function addf(score:Float, member:T, callback:Dynamic -> Float-> Void) {
+		redis.client.zadd(key, score, serialize(member), callback);
+	}
+
+	public function incrementScoref(score:Float, member:T, callback:Dynamic -> Float-> Void) {
+		redis.client.zincrby(key, score, serialize(member), callback);
+	}
+
+	public function removef(member:T, callback:Dynamic -> Float-> Void) {
+		redis.client.zrem(key, serialize(member), callback);
+	}
+
+	public function scoref(member:T, callback:Dynamic->Float->Void):Void {
+		redis.client.zscore(key, serialize(member), callback);
+	}
+
+	public function rangeByScoref(min:Float, max:Float, offset:Int, count:Int, callback:Array<Pair<T, Float>> -> Void) {
+		redis.client.zrangebyscore(key, Std.string(min), Std.string(max), "WITHSCORES", "LIMIT", offset, count, function (err:Dynamic, res:Array<Dynamic>) {
+			callback(formatf(res));
+		});
+	}
+
+	private function formatf(res:Array<Dynamic>):Array<Pair<T, Float>> {
+		var tmp:Array<Pair<T, Float>> = new Array<Pair<T, Float>>();
+		while (res.length != 0) {
+			var pair:Pair<T, Float> = new Pair<T, Float>(deserialize(cast(res.shift(), String)), Std.parseFloat(res.shift()));
+			tmp.push(pair);
+		}
+		return tmp;
+	}
+
+/* Integer stuff */
+	public function add(score:Int, member:T, callback:Dynamic -> Int -> Void) {
 		redis.client.zadd(key, score, serialize(member), callback);
 	}
 
@@ -25,6 +58,14 @@ class RankingKey<T> extends RedisKey {
 
 	public function remove(member:T, callback:Dynamic -> Int -> Void) {
 		redis.client.zrem(key, serialize(member), callback);
+	}
+
+	public function score(member:T, callback:Dynamic->Int->Void):Void {
+		redis.client.zscore(key, serialize(member), callback);
+	}
+
+	public function scoreOpt(member:T, callback:Dynamic->Dynamic->Void):Void {
+		redis.client.zscore(key, serialize(member), callback);
 	}
 
 	public function rangeByScore(min:Int, max:Int, offset:Int, count:Int, callback:Array<Pair<T, Int>> -> Void) {

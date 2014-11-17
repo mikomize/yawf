@@ -7,6 +7,7 @@ package yawf.redis;
 
 typedef Err = Dynamic;
 typedef IntegerReply = Err->Int->Void;
+typedef FloatReply = Err->Float->Void;
 typedef StatusReply = Err->String->Void;
 typedef BulkReply = Err->Dynamic->Void;
 typedef MultiReply = Err->Array<String>->Void;
@@ -99,12 +100,21 @@ typedef RedisClient = {
   function hgetall(k:String,cb:MultiReply):Void;
 
   // sorted sets
+  @:overload(function(k:String,s:Float,m:String,cb:FloatReply):Void{})
   function zadd(k:String,s:Int,m:String,cb:IntegerReply):Void;
+
+  @:overload(function(k:String,m:String,cb:FloatReply):Void{})
   function zrem(k:String,m:String,cb:IntegerReply):Void;
+
+  @:overload(function(k:String,i:Float,m:String,cb:FloatReply):Void{})
   function zincrby(k:String,i:Int,m:String,cb:IntegerReply):Void;
+
   function zrank(k:String,m:String,cb:BulkReply):Void;
   function zrankrev(k:String,m:String,cb:BulkReply):Void;
+
+  @:overload(function(k:String,s:Float,e:Float,?scores:Bool,cb:MultiReply):Void {})
   function zrange(k:String,s:Int,e:Int,?scores:Bool,cb:MultiReply):Void;
+  
   function zrevrange(k:String,s:Int,e:Int,cb:MultiReply):Void;
   function zrangebyscore(k:String,min:String,max:String, ?w:String, ?l:String, ?offest:Int, ?count:Int, cb:MultiReply):Void;
   function zremrangebyrank(k:String,s:Int,e:Int,cb:IntegerReply):Void;
