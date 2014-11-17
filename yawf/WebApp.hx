@@ -14,7 +14,7 @@ class WebApp extends App
 {
 	override public function start() {
 		var bodyParser = Node.require('body-parser');
-		express.use("/", bodyParser());
+		express.use(bodyParser.text({ type: 'text/html' }));
 		express.use("/", function (err, req, res, next) {
 			if (err == null) {
 				next(null);
