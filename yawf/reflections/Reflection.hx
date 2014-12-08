@@ -25,7 +25,7 @@ class Reflection
 		var x = Xml.parse(rtti).firstElement(); 
 		var parsed:TypeTree = new haxe.rtti.XmlParser().processElement(x);
 		var classDef:Classdef = parsed.getParameters()[0];
-		//cached.set(c, classDef);
+		cached.set(c, classDef);
 		return classDef;
 	}
 
