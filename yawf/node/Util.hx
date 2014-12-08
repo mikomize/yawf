@@ -30,4 +30,25 @@ class Util
 		return res;
 	}
 
+	public static function preciseNow():Array<Int> {
+		return Node.process.hrtime();
+	}
+
+	public static function preciseDeltaTime(from:Array<Int>):Array<Int> {
+		var now = Node.process.hrtime();
+		var ns:Int = now[1] - from[1];
+		var s:Int;
+		if (ns < 0) {
+			ns = 1000000000 + ns;
+			s = now[0] - from[0] - 1;
+		} else {
+			s = now[0] - from[0];
+		}
+		return [s, ns];
+	}
+
+	public static function prettyPreciseTime(time:Array<Int>):String {
+		return time[0] + "s and " + (Std.int(time[1]/1000000)) + "ms";
+	}
+
 }
