@@ -6,6 +6,29 @@ import haxe.rtti.CType;
 
 class Reflection 
 {
+	public static var cached:haxe.ds.ObjectMap<Dynamic, Classdef>;
+
+	public static function getCachedParsedClassDef(c:Class<Dynamic>):Classdef {
+		if (cached == null) {
+			cached = new haxe.ds.ObjectMap<Dynamic, Classdef>();
+		}
+		if (cached.get(c) != null) {
+			return cached.get(c);
+		}
+
+		var rtti = untyped c.__rtti;
+
+		if (null == rtti) {
+			throw "rtti not found in class: " + Type.getClassName(c) + " use @:rtti annotatnion";
+		}
+
+		var x = Xml.parse(rtti).firstElement(); 
+		var parsed:TypeTree = new haxe.rtti.XmlParser().processElement(x);
+		var classDef:Classdef = parsed.getParameters()[0];
+		cached.set(c, classDef);
+		return classDef;
+	}
+
 	public static function getClassInfo(c:Class<Dynamic>):ClassInfo {
 		return new ClassInfo(c);
 

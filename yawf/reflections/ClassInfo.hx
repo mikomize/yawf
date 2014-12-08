@@ -38,15 +38,8 @@ class ClassInfo
 	}
 
 	private function processClass(c:Class<Dynamic>):Void {
-		var rtti = untyped c.__rtti;
-
-		if (null == rtti) {
-			throw "rtti not found in class: " + Type.getClassName(c) + " use @:rtti annotatnion";
-		}
-
-		var x = Xml.parse(rtti).firstElement(); 
-		var parsed:TypeTree = new haxe.rtti.XmlParser().processElement(x);
-		var classDef:Classdef = parsed.getParameters()[0];
+		
+		var classDef:Classdef = Reflection.getCachedParsedClassDef(c);
 
 
 		for (m in classDef.meta) {
