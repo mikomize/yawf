@@ -86,20 +86,18 @@ class App
 		
 	}
 
-	private function setUpRedis(cb:Void -> Void):Void {
-		if (conf.get("redis") != null) {
-			redisClient = Redis.newClient(conf.get("redis:port"), conf.get("redis:ip"), conf.get("redis:options"));
-			logger.info("redis connected to: " + conf.get("redis:ip") + ":" + conf.get("redis:port"));
-			var redisDb:Int = conf.get("redis:db"); 
-			if (redisDb != null) {
-				redisClient.select(redisDb, function(err:Dynamic, res:String) {
-					logger.info("redis db set to: " + redisDb);
-					cb();
-				});
-				return;
-			} 
-		} 
-		cb();
+	private function setUpRedis(redisCfg:Dynamic, cb:RedisClient -> Void):Void {
+		var res:RedisClient = Redis.newClient(redisCfg.port, redisCfg.ip, redisCfg.options);
+		logger.info("redis connected to: " + redisCfg.ip + ":" + redisCfg.port);
+		var redisDb:Int = redisCfg.db; 
+		if (redisDb != null) {
+			redisClient.select(redisDb, function(err:Dynamic, res:String) {
+				logger.info("redis db set to: " + redisDb);
+				cb(redisClient);
+			});
+		} else {
+			cb(redisClient);
+		}
 	}
 
 	//@see https://github.com/flatiron/winston
@@ -147,7 +145,8 @@ class App
 		express = Type.createInstance(Node.require("express"), []);
 		setStatics();
 		
-		setUpRedis(function () {
+		setUpRedis(conf.get("redis"), function (rc:RedisClient) {
+			redisClient = rc;
 			onComplete();
 		});
 		
