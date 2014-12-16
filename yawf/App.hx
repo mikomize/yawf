@@ -91,12 +91,12 @@ class App
 		logger.info("redis connected to: " + redisCfg.ip + ":" + redisCfg.port);
 		var redisDb:Int = redisCfg.db; 
 		if (redisDb != null) {
-			redisClient.select(redisDb, function(err:Dynamic, res:String) {
+			res.select(redisDb, function(err:Dynamic, r:String) {
 				logger.info("redis db set to: " + redisDb);
-				cb(redisClient);
+				cb(res);
 			});
 		} else {
-			cb(redisClient);
+			cb(res);
 		}
 	}
 
