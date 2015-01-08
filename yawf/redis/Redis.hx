@@ -20,6 +20,7 @@ class Redis {
  	 	if (options == null) {
  	 		options = {};
  	 	}
-    	return c.createClient(socket, options);
+ 	 	options.no_ready_check = true;
+    	return c.createClient(socket, "", options);
   	}
 }
