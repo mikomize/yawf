@@ -87,8 +87,15 @@ class App
 	}
 
 	private function setUpRedis(redisCfg:Dynamic, cb:RedisClient -> Void):Void {
-		var res:RedisClient = Redis.newClient(redisCfg.port, redisCfg.ip, redisCfg.options);
-		logger.info("redis connected to: " + redisCfg.ip + ":" + redisCfg.port);
+		var res:RedisClient;
+		if (redisCfg.socket != null) {
+			res = Redis.newClientSocket(redisCfg.socket, redisCfg.options);
+			logger.info("redis connected to: " + redisCfg.socket);
+		} else {
+			res = Redis.newClient(redisCfg.port, redisCfg.ip, redisCfg.options);
+			logger.info("redis connected to: " + redisCfg.ip + ":" + redisCfg.port);
+		}
+		
 		var redisDb:Int = redisCfg.db; 
 		if (redisDb != null) {
 			res.select(redisDb, function(err:Dynamic, r:String) {
