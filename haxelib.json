@@ -4,8 +4,8 @@
   "tags": ["web","jsonrpc","nodejs","node.js","js","json","mapper"],
   "description": "Some stuff for nodejs",
   "contributors": ["miko"],
-  "releasenote": "redis sockets,",
-  "version": "0.2.36",
+  "releasenote": "now,",
+  "version": "0.2.37",
   "url": "https://github.com/mikomize/yawf",
   "dependencies": {
     "minject": "1.6.0"
