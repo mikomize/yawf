@@ -4,7 +4,6 @@ package yawf.redis;
 import minject.Injector;
 import yawf.ObjectMapper;
 
-@:generic
 class RedisListKey<T> extends RedisKey
 {
 	@inject
