@@ -20,7 +20,9 @@ class PackedDataObject
 
 }
 
-class RedisObjectListKey<T>  extends RedisListKey<PackedDataObject> {
+typedef RedisObjectListKeyTypeDef = RedisListKey<PackedDataObject>;
+
+class RedisObjectListKey<T>  extends RedisObjectListKeyTypeDef {
 
 	public function new(key:String) {
 		super(key);
