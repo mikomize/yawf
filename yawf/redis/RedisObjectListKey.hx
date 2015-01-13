@@ -4,22 +4,6 @@ package yawf.redis;
 import yawf.*;
 import yawf.reflections.*;
 
-@:rtti
-class PackedDataObject 
-{
-	@param
-	public var data:String;
-
-	@param
-	public var className:String;
-
-	public function new(className:String, data:String) {
-		this.data = data;
-		this.className = className;
-	}
-
-}
-
 typedef RedisObjectListKeyTypeDef = RedisListKey<PackedDataObject>;
 
 class RedisObjectListKey<T>  extends RedisObjectListKeyTypeDef {
