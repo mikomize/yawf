@@ -3,6 +3,7 @@ package yawf.redis;
 
 import yawf.*;
 import yawf.reflections.*;
+import yawf.redis.PackedDataObject;
 
 typedef RedisObjectListKeyTypeDef = RedisListKey<PackedDataObject>;
 
