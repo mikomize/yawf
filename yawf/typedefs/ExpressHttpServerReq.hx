@@ -8,5 +8,5 @@ extern class ExpressHttpServerReq {
 	public var ip:String;
 	public var secure:Bool;
 	public function param(name:String):String;
-
+	public function header(name:String):String;
 }
