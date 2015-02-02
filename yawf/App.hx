@@ -150,6 +150,10 @@ class App
 		}
 		
 		express = Type.createInstance(Node.require("express"), []);
+
+		var bodyParser = Node.require('body-parser');
+		express.use(bodyParser.bodyParser());
+
 		setStatics();
 		
 		setUpRedis(conf.get("redis"), function (rc:RedisClient) {

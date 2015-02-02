@@ -101,8 +101,6 @@ class JsonRpcApp extends App
 	}
 
 	override public function start() {
-		var bodyParser = Node.require('body-parser');
-		express.use(bodyParser.json());
 
 		express.post("/", function (req:ExpressHttpServerReq, res:ExpressHttpServerResp) {
 			var name:String = Std.string(req.body.method);
