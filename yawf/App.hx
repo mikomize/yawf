@@ -154,8 +154,9 @@ class App
 		var bodyParser = Node.require('body-parser');
 
 		express.use(bodyParser.json());
-		express.use(bodyParser.urlencoded());
-		express.use(bodyParser.multipart());
+		express.use(bodyParser.urlencoded({
+  			extended: true
+		}));
 
 		setStatics();
 		
