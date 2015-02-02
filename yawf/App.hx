@@ -152,7 +152,10 @@ class App
 		express = Type.createInstance(Node.require("express"), []);
 
 		var bodyParser = Node.require('body-parser');
-		express.use(bodyParser.bodyParser());
+
+		express.use(bodyParser.json());
+		express.use(bodyParser.urlencoded());
+		express.use(bodyParser.multipart());
 
 		setStatics();
 		
