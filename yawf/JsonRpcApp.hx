@@ -64,11 +64,9 @@ class JsonRpcApp extends App
 						logger.error(e);
 						service.error(e);
 					} catch (e:Dynamic) {
-						var msg:String = "Unhandled error";
-						yawf.node.Util.trace(e);
-						logger.error(e);
-						service.error(msg);
-						throw (e);
+						service.error("Unhandled server error");
+						logger.error(e.stack);
+						untyped proccess.exit(1);
 					}
 					
 				});
