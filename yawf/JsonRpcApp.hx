@@ -66,7 +66,7 @@ class JsonRpcApp extends App
 					} catch (e:Dynamic) {
 						service.error("Unhandled server error");
 						logger.error(e.stack);
-						untyped proccess.exit(1);
+						untyped process.exit(1);
 					}
 					
 				});
