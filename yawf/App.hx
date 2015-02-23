@@ -188,10 +188,15 @@ class App
 			}
 			server = Node.https.createServer(untyped ssl, untyped express);
 		}
-
-		if (conf.get("socket")) {
-			server.listen(conf.get("socket"), function () {
-				logger.info("listening on: " + conf.get("socket"));
+		var socket:String = conf.get("socket");
+		if (socket != null) {
+			socket = Util.resolvePath(socket);
+			if (Node.fs.existsSync(socket)) {
+				logger.verbose("file: " + socket + " found, removing");
+				Node.fs.unlinkSync(socket);
+			}
+			server.listen(socket, function () {
+				logger.info("listening on: " + socket);
 			});
 		} else {
 			server.listen(conf.get("port"), conf.get("ip"), function () {
