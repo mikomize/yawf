@@ -73,7 +73,7 @@ class App
 		if (env != null) {
 			envConfigPath = Util.resolvePath(configs + env + ".json");
 			if(Util.fileExists(envConfigPath)) {
-				conf.add("env", {type: "file", file: envConfigPath});
+				conf.add("env_config", {type: "file", file: envConfigPath});
 			} else {
 				throw "specified config: " + envConfigPath + " does not exists";
 			}
