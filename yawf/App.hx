@@ -196,6 +196,7 @@ class App
 				Node.fs.unlinkSync(socket);
 			}
 			server.listen(socket, function () {
+				Node.fs.chmodSync(socket, 777);
 				logger.info("listening on: " + socket);
 			});
 		} else {
