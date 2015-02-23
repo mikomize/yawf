@@ -10,5 +10,6 @@ extern class Express
 	public function post(path:String, fn:ExpressHttpServerReq ->  ExpressHttpServerResp -> Void):Void;
 	@:overload(function(d:Dynamic):Void{})
 	public function use(path:String, fn:Dynamic -> ExpressHttpServerReq ->  ExpressHttpServerResp -> (Dynamic -> Void) -> Void):Void;
-	public function listen(port:Int, ?host:String):Void;
+	@:overload(function(path:String, ?callback:Void->Void):Void{})
+	public function listen(port:Int, ?host:String, ?callback:Void->Void):Void;
 }

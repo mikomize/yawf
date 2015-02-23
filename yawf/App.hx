@@ -188,8 +188,18 @@ class App
 			}
 			server = Node.https.createServer(untyped ssl, untyped express);
 		}
-		logger.info("listening at: " + conf.get("ip") + ":" + conf.get("port"));
-		server.listen(conf.get("port"), conf.get("ip"));
+
+		if (conf.get("socket")) {
+			server.listen(conf.get("socket"), function () {
+				logger.info("listening on: " + conf.get("socket"));
+			});
+		} else {
+			server.listen(conf.get("port"), conf.get("ip"), function () {
+				logger.info("listening at: " + conf.get("ip") + ":" + conf.get("port"));
+			});
+		}
+		
+		
 	}
 
 	private function createInjector(requestData:RequestData):Injector {
