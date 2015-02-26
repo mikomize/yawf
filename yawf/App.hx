@@ -11,6 +11,7 @@ import yawf.redis.*;
 import minject.Injector;
 import js.Node;
 import yawf.node.Util;
+import haxe.Json;
 
 class App 
 {
@@ -153,7 +154,16 @@ class App
 
 		var bodyParser = Node.require('body-parser');
 
-		express.use(bodyParser.json());
+		express.use(bodyParser.json({
+			verify: function (res, req, raw, enc) {
+				try {
+					Json.parse(raw.toString(enc));
+				} catch(e:Dynamic) {
+					logger.error(raw.toString(enc));
+					throw "Request is not a valid json";
+				}
+			}
+		}));
 		express.use(bodyParser.urlencoded({
   			extended: true
 		}));
