@@ -46,6 +46,18 @@ class RedisHashKey<T> extends RedisKey implements IRedisCacheable
 		}
 	}
 
+
+	public function getAll(callback:Map<String, T>->Void) {
+		redis.client.hgetall(key, function (err:Dynamic, res:Dynamic) {
+			for (field in Reflect.fields(res)) {
+				if (cache.get(field) == null) {
+					cache.set(field, deserialize(Reflect.field(res, field)));
+				}
+			}
+			callback(cache);
+		});
+	}
+
 	public function getKeys(callback:Array<String> -> Void) {
 		redis.client.hkeys(key, function (err:Dynamic, res:Array<String>) {
 			callback(res);
