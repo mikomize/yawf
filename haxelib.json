@@ -5,7 +5,7 @@
   "description": "Some stuff for nodejs",
   "contributors": ["miko"],
   "releasenote": "minor,",
-  "version": "0.2.48",
+  "version": "0.2.49",
   "url": "https://github.com/mikomize/yawf",
   "dependencies": {
     "minject": "1.6.0"
