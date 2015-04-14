@@ -17,6 +17,8 @@ class RedisHashKey<T> extends RedisKey implements IRedisCacheable
 
 	private var cache:Map<String, T>;
 
+	private var toRemove:Array<String>;
+
 	private var checks:Map<String, String>;
 
 	private var data:T;
@@ -24,6 +26,7 @@ class RedisHashKey<T> extends RedisKey implements IRedisCacheable
 	public function new(key:String) {
 		cache = new Map<String, T>();
 		checks = new Map<String, String>();
+		toRemove = new Array<String>();
 		super(key);
 	}
 
@@ -65,7 +68,8 @@ class RedisHashKey<T> extends RedisKey implements IRedisCacheable
 	}
 
 	public function remove(id:String) {
-		cache.set(id, null);
+		cache.remove(id);
+		toRemove.push(id);
 	}
 
 	public function set(id:String, data:T) {
@@ -84,7 +88,9 @@ class RedisHashKey<T> extends RedisKey implements IRedisCacheable
 			
 		}
 
-		var onComplete:Void -> Void = yawf.Util.after(toDo.length, function () {
+		trace("store");
+		trace(toRemove.length);
+		var onComplete:Void -> Void = yawf.Util.after(toDo.length + toRemove.length, function () {
 			callback(e, null);
 		});
 
@@ -97,9 +103,21 @@ class RedisHashKey<T> extends RedisKey implements IRedisCacheable
 			});
 		}
 
+		for (id in toRemove) {
+			trace("removing: " + id);
+			redis.client.hdel(key, id, function (err:Dynamic, res:Int) {
+				e = err;
+				checks.remove(id);
+				onComplete();
+			});
+		}
+
 	}
 
 	public function isDirty():Bool {
+		if (toRemove.length > 0) {
+			return true;
+		}
 		var dirty:Bool = false;
 		for (id in cache.keys()) {
 			dirty = dirty || isFieldDirty(id);
