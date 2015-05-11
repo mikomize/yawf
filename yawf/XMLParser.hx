@@ -10,7 +10,7 @@ class XMLParser
 
 	public static var baseFilesPath:String = ".";
 
-	public static function parse(xml, callback:Dynamic -> Void) {
+	public static function parse(xml, callback:Dynamic -> Dynamic -> Void) {
 		var xml2js = Node.require('xml2js');
     	var parser = xml2js.Parser({
       		explicitArray: false,
@@ -22,7 +22,7 @@ class XMLParser
 				Util.trace(err);
 			}
         	result = pleaseDo(result);
-        	callback(result);
+        	callback(result, err);
         });
 	}
 
