@@ -39,6 +39,35 @@ class Util
 		}
 	}
 
+
+	//wont work if field is null
+	public static function recursiveReplaceAnnotatedFieldInObject(obj:Dynamic, toReplace:Dynamic, annotation:String, visited:Array<Dynamic> = null):Void {
+		if (visited == null) {
+			visited = new Array<Dynamic>();
+		}
+		var c:Class<Dynamic> = Type.getClass(obj);
+		if (c == null) {//XXX dont ask
+			return;
+		}
+		var m = haxe.rtti.Meta.getFields(c);
+		for (field in Reflect.fields(obj)) {
+			var hasAnnotation:Bool = Reflect.field(m, field) != null && Reflect.hasField(Reflect.field(m, field), annotation);
+			var tmp:Dynamic = Reflect.field(obj, field);
+			if (tmp == null) {
+				continue;
+			}
+			if (hasAnnotation && Std.is(tmp, Type.getClass(toReplace))) {
+				Reflect.setField(obj, field, toReplace);
+			} else if (Reflect.isObject(tmp)) {
+				visited.push(obj);
+				if (hasAnnotation && visited.indexOf(tmp) == -1) {
+					recursiveReplaceAnnotatedFieldInObject(tmp, toReplace, annotation, visited);
+				}
+			}
+		}
+
+	}
+
 	public static function trace(obj:Dynamic) {
 		trace(obj);
 	}
