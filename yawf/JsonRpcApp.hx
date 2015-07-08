@@ -8,6 +8,7 @@ import yawf.typedefs.ExpressHttpServerResp;
 import yawf.typedefs.Nconf;
 import yawf.reflections.*;
 import minject.Injector;
+import haxe.Json;
 
 class JsonRpcApp extends App
 {
@@ -101,7 +102,7 @@ class JsonRpcApp extends App
 
 	override public function start() {
 
-		express.post("/", function (req:ExpressHttpServerReq, res:ExpressHttpServerResp) {
+		var mainHandler:ExpressHttpServerReq -> ExpressHttpServerResp -> Void = function (req:ExpressHttpServerReq, res:ExpressHttpServerResp) {
 			var name:String = Std.string(req.body.method);
 			var func:ExpressHttpServerReq -> ExpressHttpServerResp -> Void = endpoints.get(name); 
 			if (func == null) {
@@ -110,7 +111,24 @@ class JsonRpcApp extends App
 			} else {
 				func(req,res);
 			}
+		} 
+
+
+		express.post("/upload", function (req:ExpressHttpServerReq, res:ExpressHttpServerResp) {
+			var form = Type.createInstance(Node.require("multiparty").Form, []);
+			form.parse(req, function (err, fields, files) {
+				Util.trace(fields);
+				untyped req.files = files;
+				req.body = Json.parse(fields.json);
+				mainHandler(req, res);
+			});
 		});
+
+		
+
+
+		express.post("/", mainHandler);
+
 		express.use("/", function (err, req, res, next) {
 			if (err == null) {
 				next(null);

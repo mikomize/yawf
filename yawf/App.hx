@@ -153,6 +153,7 @@ class App
 		express = Type.createInstance(Node.require("express"), []);
 
 		var bodyParser = Node.require('body-parser');
+		var compress = Node.require('compression');
 
 		express.use(bodyParser.json({
 			verify: function (res, req, raw, enc) {
@@ -164,6 +165,9 @@ class App
 				}
 			}
 		}));
+
+		express.use(compress());
+
 		express.use(bodyParser.urlencoded({
   			extended: true
 		}));
