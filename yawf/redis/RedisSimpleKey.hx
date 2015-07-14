@@ -22,6 +22,10 @@ class RedisSimpleKey<T>  extends RedisKey implements IRedisCacheable
 	public function get(callback:T -> Void) {
 		if (data == null) {
 			redis.client.get(key, function (err:Dynamic, res:String) {
+				if (res == null) {
+					callback(null);
+					return;
+				}
 				data = ObjectMapper.fromJsonUntyped(res, classInfo.getField("data").type);
 				clean();
 				callback(data);
