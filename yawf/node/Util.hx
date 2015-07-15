@@ -65,4 +65,17 @@ class Util
 		return time[0] + "s and " + (Std.int(time[1]/1000000)) + "ms";
 	}
 
+	public static function copyFile(oldPath:String, newPath:String, cb:Dynamic -> Void) {
+		var fs = Node.fs;
+        var readStream = fs.createReadStream(oldPath);
+        var writeStream = fs.createWriteStream(newPath);
+
+        readStream.on('error', cb);
+        writeStream.on('error', cb);
+        readStream.on('close', function () {
+			fs.unlink(oldPath, cb);
+    	});
+
+    	readStream.pipe(writeStream);
+    }
 }
