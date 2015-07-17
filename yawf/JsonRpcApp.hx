@@ -67,7 +67,6 @@ class JsonRpcApp extends App
 					} catch (e:Dynamic) {
 						service.error("Unhandled server error");
 						logger.error(e.stack);
-						untyped process.exit(1);
 					}
 					
 				});
@@ -124,19 +123,8 @@ class JsonRpcApp extends App
 			});
 		});
 
-		
-
-
 		express.post("/", mainHandler);
 
-		express.use("/", function (err, req, res, next) {
-			if (err == null) {
-				next(null);
-			} else {
-				res.json(500, "Unhandled internal server error");
-				throw err;
-			}
-		});
 		super.start();
 	}
 

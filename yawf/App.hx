@@ -1,4 +1,4 @@
-
+	
 package yawf;
 
 import yawf.typedefs.Express;
@@ -51,16 +51,38 @@ class App
 
     //@see https://github.com/expressjs/serve-static/blob/master/index.js
 	private function setStatics():Void {
-		var statics:Array<Array<String>> = conf.get("statics");
+		logger.info("Setting statics");
+		var statics:Dynamic = conf.get("statics");
 		var serve = Node.require("serve-static");
+		var ba = Node.require("basic-auth");
 		if (statics != null) {
-			for (s in statics) {
-				var resolvedPath:String = Util.resolvePath(s[1]);
-				logger.info("mounted dir: " + resolvedPath + " at " + s[0]);
-				express.use(s[0], serve(resolvedPath));
+			for (label in Reflect.fields(statics)) {
+				trace(label);
+				var info:{uri: String, dirPath:String, auth: {login: String, pass: String}} = Reflect.field(statics, label);
+				var resolvedPath:String = Util.resolvePath(info.dirPath);
+				var uri:String = info.uri;
+				logger.info("[ " +  label + " ] mounted dir: " + resolvedPath + " at " + uri);
+				var auth = info.auth;
+				if (auth != null) {
+					logger.info("[ " +  label + " ] with auth");
+					express.use(uri, function (req, res, next) {
+						var objUser = ba(req);
+						if (objUser == null || objUser.name != auth.login || objUser.pass != auth.pass) {
+					        res.set("WWW-Authenticate", "Basic realm=Authorization Required");
+					        untyped res.status(401).end();
+					    } else { 
+					    	next();
+					    }
+
+					});
+				}
+
+				express.use(uri, serve(resolvedPath));
 			}
 		}
+		logger.info("Done.");
 	}
+
 
 	//@see https://github.com/flatiron/nconf
 	private function setUpConf():Void {
