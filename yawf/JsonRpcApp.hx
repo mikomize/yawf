@@ -9,6 +9,7 @@ import yawf.typedefs.Nconf;
 import yawf.reflections.*;
 import minject.Injector;
 import haxe.Json;
+import haxe.CallStack;
 
 class JsonRpcApp extends App
 {
@@ -61,12 +62,12 @@ class JsonRpcApp extends App
 				d.on('error', function(err) {
 					try {
 						throw(err);
-					} catch (e:String) {
-						logger.error(e);
-						service.error(e);
+					} catch (e:Error) {
+						logger.error(untyped e.stack);
+						service.error(untyped e.message);
 					} catch (e:Dynamic) {
-						service.error("Unhandled server error");
 						logger.error(e.stack);
+						service.error("Unhandled server error");
 					}
 					
 				});
