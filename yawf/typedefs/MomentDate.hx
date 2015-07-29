@@ -22,4 +22,9 @@ extern class MomentDate {
 	@:overload(function(otherMoment:MomentDate, units:String, float:Bool):Float{})
 	@:overload(function(otherMoment:MomentDate, units:String):Int{})
 	function diff(otherMoment:MomentDate):Int;
+
+	@:overload(function(day:Int):MomentDate{})
+	function isoWeekday():Int;
+
+	function weekday():Int;
 }
