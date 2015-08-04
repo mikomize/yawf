@@ -62,7 +62,7 @@ class JsonRpcApp extends App
 				d.on('error', function(err) {
 					try {
 						throw(err);
-					} catch (e:Error) {
+					} catch (e:js.Error) {
 						logger.error(untyped e.stack);
 						service.error(untyped e.message);
 					} catch (e:Dynamic) {
