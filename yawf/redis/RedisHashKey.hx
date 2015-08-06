@@ -55,6 +55,7 @@ class RedisHashKey<T> extends RedisKey implements IRedisCacheable
 			for (field in Reflect.fields(res)) {
 				if (cache.get(field) == null) {
 					cache.set(field, deserialize(Reflect.field(res, field)));
+					clean(field);
 				}
 			}
 			callback(cache);
