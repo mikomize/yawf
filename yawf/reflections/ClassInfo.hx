@@ -41,11 +41,14 @@ class ClassInfo
 		
 		var classDef:Classdef = Reflection.getCachedParsedClassDef(c);
 
-
 		for (m in classDef.meta) {
 			var tmp:Array<String> = new Array<String>();
 			for(param in m.params) {
-				tmp.push(Json.parse(param));
+				try {
+					tmp.push(Json.parse(param));
+				} catch (e:Dynamic) {
+					tmp.push(param);
+				}
 			}
 			meta.set(m.name, tmp);
 		}
