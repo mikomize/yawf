@@ -38,8 +38,14 @@ class ClassInfo
 	}
 
 	private function processClass(c:Class<Dynamic>):Void {
+
+		var sc:Class<Dynamic> = Type.getSuperClass(c);
+		if (sc != null) {
+			processClass(sc);
+		}
 		
 		var classDef:Classdef = Reflection.getCachedParsedClassDef(c);
+
 
 		for (m in classDef.meta) {
 			var tmp:Array<String> = new Array<String>();
@@ -70,10 +76,7 @@ class ClassInfo
 			path = classDef.path;
 		}
 
-		var sc:Class<Dynamic> = Type.getSuperClass(c);
-		if (sc != null) {
-			processClass(sc);
-		}
+		
 	}
 
 }
