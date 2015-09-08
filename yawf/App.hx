@@ -58,7 +58,7 @@ class App
 		if (statics != null) {
 			for (label in Reflect.fields(statics)) {
 				trace(label);
-				var info:{uri: String, dirPath:String, auth: {login: String, pass: String}} = Reflect.field(statics, label);
+				var info:{uri: String, dirPath:String, auth: {login: String, pass: String}, params:Dynamic} = Reflect.field(statics, label);
 				var resolvedPath:String = Util.resolvePath(info.dirPath);
 				var uri:String = info.uri;
 				logger.info("[ " +  label + " ] mounted dir: " + resolvedPath + " at " + uri);
@@ -76,8 +76,8 @@ class App
 
 					});
 				}
-
-				express.use(uri, serve(resolvedPath));
+				logger.info("[ " + label + " ] param " + info.params);
+				express.use(uri, serve(resolvedPath, info.params));
 			}
 		}
 		logger.info("Done.");
