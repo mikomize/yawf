@@ -36,7 +36,7 @@ class ObjectMapper
 			case String:
 				return Std.string(data);
 			case Bool:
-				return !!data;
+				return data != null && data != 0 && data != "false";
 			case Null:
 				return null;
 			case Function(args, ret):
