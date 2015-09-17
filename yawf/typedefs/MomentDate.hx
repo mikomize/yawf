@@ -27,4 +27,23 @@ extern class MomentDate {
 	function isoWeekday():Int;
 
 	function weekday():Int;
+
+	static var module:Dynamic;
+
+	static function initModule():Void {
+		if (module == null) {
+			module = Node.require("moment-timezone");
+		}
+	}
+
+	static function ofMilliseconds(ms:Int):MomentDate {
+		initModule();
+		return module(ms).tz("Europe/Warsaw");
+	}
+
+	static function ofIso(isoString:String):MomentDate {
+		initModule();
+		return module(isoString).tz("Europe/Warsaw");
+	}
+
 }
