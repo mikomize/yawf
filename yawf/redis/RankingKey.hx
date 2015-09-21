@@ -48,6 +48,10 @@ class RankingKey<T> extends RedisKey {
 	}
 
 /* Integer stuff */
+	public function rank(member:T, callback:Dynamic -> Int -> Void) {
+		redis.client.zrank(key, serialize(member), callback);
+	}
+
 	public function add(score:Int, member:T, callback:Dynamic -> Int -> Void) {
 		redis.client.zadd(key, score, serialize(member), callback);
 	}
