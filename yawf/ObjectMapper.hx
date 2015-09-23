@@ -135,7 +135,9 @@ class ObjectMapper
 						fieldName = field.getMeta("param")[0];
 					}
 					var fieldData:Dynamic = Reflect.field(obj, field.name);
-					Reflect.setField(res, fieldName, toPlainObject(fieldData, field.type));
+					if (field.getMeta("skipIfNull") == null || fieldData != null) {
+						Reflect.setField(res, fieldName, toPlainObject(fieldData, field.type));
+					}
 				}
 				//maybe some "additional data" annotation flag?
 				//prefix annotatnion data to change "_"?
