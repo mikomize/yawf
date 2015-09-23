@@ -110,13 +110,14 @@ typedef RedisClient = {
   function zincrby(k:String,i:Int,m:String,cb:IntegerReply):Void;
 
   function zrank(k:String,m:String,cb:BulkReply):Void;
-  function zrankrev(k:String,m:String,cb:BulkReply):Void;
+  function zrevrank(k:String,m:String,cb:BulkReply):Void;
 
   @:overload(function(k:String,s:Float,e:Float,?scores:Bool,cb:MultiReply):Void {})
   function zrange(k:String,s:Int,e:Int,?scores:Bool,cb:MultiReply):Void;
   
   function zrevrange(k:String,s:Int,e:Int,cb:MultiReply):Void;
   function zrangebyscore(k:String,min:String,max:String, ?w:String, ?l:String, ?offest:Int, ?count:Int, cb:MultiReply):Void;
+  function zrevrangebyscore(k:String,min:String,max:String, ?w:String, ?l:String, ?offest:Int, ?count:Int, cb:MultiReply):Void;
   function zremrangebyrank(k:String,s:Int,e:Int,cb:IntegerReply):Void;
   function zremrangebyscore(k:String,min:Int,max:Int,cb:IntegerReply):Void;
   function zcard(k:String,cb:IntegerReply):Void;

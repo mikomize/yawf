@@ -52,6 +52,10 @@ class RankingKey<T> extends RedisKey {
 		redis.client.zrank(key, serialize(member), callback);
 	}
 
+	public function revRank(member:T, callback:Dynamic -> Int -> Void) {
+		redis.client.zrevrank(key, serialize(member), callback);
+	}
+
 	public function add(score:Int, member:T, callback:Dynamic -> Int -> Void) {
 		redis.client.zadd(key, score, serialize(member), callback);
 	}
@@ -80,6 +84,12 @@ class RankingKey<T> extends RedisKey {
 
 	public function getAll(callback:Array<Pair<T, Int>> -> Void) {
 		redis.client.zrangebyscore(key, '-inf', '+inf', "WITHSCORES", "LIMIT", 0, -1, function (err:Dynamic, res:Array<Dynamic>) {
+			callback(format(res));
+		});
+	}
+
+	public function getAllReversed(callback:Array<Pair<T, Int>> -> Void) {
+		redis.client.zrevrangebyscore(key, '+inf', '-inf', "WITHSCORES", "LIMIT", 0, -1, function (err:Dynamic, res:Array<Dynamic>) {
 			callback(format(res));
 		});
 	}
