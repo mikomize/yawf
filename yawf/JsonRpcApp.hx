@@ -119,8 +119,14 @@ class JsonRpcApp extends App
 			form.parse(req, function (err, fields, files) {
 				Util.trace(fields);
 				untyped req.files = files;
-				req.body = Json.parse(fields.json);
-				mainHandler(req, res);
+				try{
+					req.body = Json.parse(fields.json);
+					mainHandler(req, res);
+				}
+				catch(e:Dynamic){
+					res.json(404, "Missing json field");
+					logger.error("Missing json field");
+				}
 			});
 		});
 

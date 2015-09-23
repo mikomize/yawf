@@ -49,6 +49,29 @@ class RedisHashKey<T> extends RedisKey implements IRedisCacheable
 		}
 	}
 
+	public function getM(ids:Array<String>, callback:Map<String, T> -> Void){
+		var idsToGet:Array<String> = new Array<String>();
+		var result:Map<String,T> = new Map<String,T>();
+		for(id in ids){
+			var data:T = cache.get(id);
+			if(data == null){
+				idsToGet.push(id);
+			}
+			else{
+				result.set(id,data);
+			}
+		}
+		redis.client.hmget(key,idsToGet, function(err:Dynamic, res:Dynamic){
+			for(i in 0...idsToGet.length){
+				var tmp = deserialize(res[i]);
+				cache.set(idsToGet[i],tmp);
+				result.set(idsToGet[i],tmp);
+				clean(idsToGet[i]);
+			}
+			callback(result);
+		});
+	}
+
 
 	public function getAll(callback:Map<String, T>->Void) {
 		redis.client.hgetall(key, function (err:Dynamic, res:Dynamic) {

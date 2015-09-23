@@ -90,7 +90,7 @@ typedef RedisClient = {
   function hget(k:String,f:String,cb:BulkReply):Void;
   function hsetnx(k:String,f:String,v:String,cb:IntegerReply):Void;
   function hmset(k:String, f:Array<String>,cb:StatusReply):Void;
-  function hmget(k:Array<String>,cb:MultiReply):Void;
+  function hmget(k:String, f:Array<String>,cb:MultiReply):Void;
   function hincrby(k:String,f:String,v:Int,cb:IntegerReply):Void;
   function hexists(k:String,f:String,cb:IntegerReply):Void;
   function hdel(k:String,f:String,cb:IntegerReply):Void;
