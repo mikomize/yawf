@@ -124,6 +124,14 @@ class Util
 		return res;
 	}
 
+	public static function values<T>(m:Map<Dynamic, T>):Array<T> {
+		var res:Array<T> = new Array<T>();
+		for (x in m) {
+			res.push(x);
+		}
+		return res;
+	}
+
 	public static function sleep(seconds:Float) {
 		var tmp:Float = Date.now().getTime();
 		while(Date.now().getTime() < tmp + seconds * 1000 ) {

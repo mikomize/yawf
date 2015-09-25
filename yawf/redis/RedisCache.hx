@@ -14,7 +14,7 @@ class RedisCache
 	private var cache:Map<String, IRedisCacheable>;
 
 	public function new(r:RedisClient) {
-		cache = new Map<String, IRedisCacheable>();
+		invalidate();
 		client = r;
 	}
 
@@ -59,6 +59,10 @@ class RedisCache
 			});
 		}
 
+	}
+
+	public function invalidate() {
+		cache = new Map<String, IRedisCacheable>();
 	}
 
 }

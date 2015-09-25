@@ -4,6 +4,7 @@ package yawf.redis;
 import minject.Injector;
 import yawf.ObjectMapper;
 
+@:generic
 class RedisListKey<T> extends RedisKey
 {
 	@inject
@@ -20,6 +21,12 @@ class RedisListKey<T> extends RedisKey
 
 	public function lpush(elem:T, callback:Void -> Void) {
 		lpushMulti([elem], callback);
+	}
+
+	public function lset(index:Int, elem:T, callback:Void->Void) {
+		redis.client.lset(key, index, serialize(elem), function (err, res) {
+			callback();
+		});
 	}
 
 	public function lpushMulti(elems:Array<T>, callback:Void -> Void) {
