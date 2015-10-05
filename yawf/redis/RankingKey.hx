@@ -94,6 +94,10 @@ class RankingKey<T> extends RedisKey {
 		});
 	}
 
+	public function getCardinality(callback:Dynamic->Int->Void) {
+		redis.client.zcard(key, callback);
+	}
+
 	private function format(res:Array<Dynamic>):Array<Pair<T, Int>> {
 		var tmp:Array<Pair<T, Int>> = new Array<Pair<T, Int>>();
 		while (res.length != 0) {
