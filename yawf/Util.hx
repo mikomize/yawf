@@ -100,6 +100,36 @@ class Util
 		}
 	}
 
+	public static function sequentialReduce<T, TResult>(iterable:Iterable<T>, f:TResult -> T -> (Void -> Void) -> Void, result:TResult, cb:TResult -> Void):Void {
+		var iterator = iterable.iterator();
+		var step:Void -> Void = null;
+		step = function() {
+			if (iterator.hasNext()) {
+				var t = iterator.next();
+				f(result, t, step);
+			} else {
+				cb(result);
+			}
+		};
+		step();
+	}
+
+	public static function simultaneousReduce<T, TResult>(iterable:Iterable<T>, f:TResult -> T -> (Void -> Void) -> Void, result:TResult, cb:TResult -> Void):Void {
+		var iterator = iterable.iterator();
+		if (!iterator.hasNext()) {
+			cb(result);
+		} else {
+			var a = Lambda.array(iterable);
+			var step = Util.after(a.length, function() {
+				cb(result);
+			});
+
+			for (t in a) {
+				f(result, t, step);
+			}
+		}
+	}
+
 	public static function pairFirsts<T, K>(a:Array<Pair<T, K>>):Array<T> {
 		var res:Array<T> = new Array<T>();
 		for (pair in a) {
