@@ -101,6 +101,10 @@ class Util
 	}
 
 	public static function sequentialReduce<T, TResult>(iterable:Iterable<T>, f:TResult -> T -> (Void -> Void) -> Void, result:TResult, cb:TResult -> Void):Void {
+		if (iterable == null) {
+			cb(result);
+			return;
+		}
 		var iterator = iterable.iterator();
 		var step:Void -> Void = null;
 		step = function() {
@@ -115,6 +119,10 @@ class Util
 	}
 
 	public static function simultaneousReduce<T, TResult>(iterable:Iterable<T>, f:TResult -> T -> (Void -> Void) -> Void, result:TResult, cb:TResult -> Void):Void {
+		if (iterable == null) {
+			cb(result);
+			return;
+		}
 		var iterator = iterable.iterator();
 		if (!iterator.hasNext()) {
 			cb(result);

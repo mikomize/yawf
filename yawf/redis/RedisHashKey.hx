@@ -97,6 +97,7 @@ class RedisHashKey<T> extends RedisKey implements IRedisCacheable
 	}
 
 	public function set(id:String, data:T) {
+		toRemove.remove(id);
 		cache.set(id, data);
 	}
 
