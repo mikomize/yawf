@@ -52,6 +52,13 @@ class RedisHashKey<T> extends RedisKey implements IRedisCacheable
 	public function getM(ids:Array<String>, callback:Map<String, T> -> Void){
 		var idsToGet:Array<String> = new Array<String>();
 		var result:Map<String,T> = new Map<String,T>();
+
+		if (ids == null || ids.length == 0) {
+			callback(result);
+			return;
+		}
+
+
 		for(id in ids){
 			var data:T = cache.get(id);
 			if(data == null){

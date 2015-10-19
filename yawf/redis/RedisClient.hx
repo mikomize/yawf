@@ -83,7 +83,7 @@ typedef RedisClient = {
   function sdiff(k1:String,k2:String,cb:MultiReply):Void;
   function sdiffstore(dst:String,k1:String,k2:String,cb:StatusReply):Void;
   function smembers(k:String,cb:MultiReply):Void;
-  function srandmember(k:String,cb:BulkReply):Void;
+  function srandmember(k:String, count:Int, cb:BulkReply):Void;
 
   // hash
   function hset(k:String,f:String,v:String,cb:IntegerReply):Void;

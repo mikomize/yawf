@@ -29,18 +29,16 @@ class RedisSet<T> extends RedisKey {
 		});
 	}
 
+	public function getRandom(count:Int ,callback:Dynamic->Array<T>->Void):Void {
+		redis.client.srandmember(key, count, function(error:Dynamic, arrayOfStrings:Dynamic):Void {
+			callback(error, deserializeArray(arrayOfStrings));
+		});
+	}
+
 	public function getCardinality(callback:Dynamic->Int->Void) {
 		redis.client.scard(key, callback);
 	}
 
-	private function format(res:Array<Dynamic>):Array<Pair<T, Int>> {
-		var tmp:Array<Pair<T, Int>> = new Array<Pair<T, Int>>();
-		while (res.length != 0) {
-			var pair:Pair<T, Int> = new Pair<T, Int>(deserialize(cast(res.shift(), String)), Std.parseInt(res.shift()));
-			tmp.push(pair);
-		}
-		return tmp;
-	}
 
 	private function serializeArray(items:Array<T>):Array<String> {
 		return Lambda.array(Lambda.map(items, function(t:T):String {
