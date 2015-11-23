@@ -31,6 +31,7 @@ typedef RedisClient = {
   function renamenx(k:String,nk:String,cb:StatusReply):Void;
   function dbsize(cb:IntegerReply):Void;
   function expire(k:String,secs:Int,cb:IntegerReply):Void;
+  function expireat(k:String,ts:Int,cb:IntegerReply):Void;
   function ttl(k:String,cb:IntegerReply):Void;
   function select(index:Int,cb:StatusReply):Void;
   function move(k:String,index:Int,cb:IntegerReply):Void;
