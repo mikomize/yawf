@@ -11,4 +11,5 @@ typedef RequestOptions = {
 
 typedef SimpleRequest = {
 	function get(options:RequestOptions, reply:RequestReply):SimpleRequest;
+	function post(options:RequestOptions, reply:RequestReply):SimpleRequest;
 }
