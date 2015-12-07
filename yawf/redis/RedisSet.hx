@@ -23,6 +23,18 @@ class RedisSet<T> extends RedisKey {
 		redis.client.srem(key, untyped serializeArray(members), callback);
 	}
 
+	public function contains(member:T, callback:Dynamic->Int->Void):Void {
+		redis.client.sismember(key, untyped serialize(member), callback);
+	}
+
+	public function clear(callback:Dynamic->Int->Void):Void {
+		members(function (err, members) {
+			if (err == null) {
+				rem(members, callback);
+			}
+		});
+	}
+
 	public function members(callback:Dynamic->Array<T>->Void):Void {
 		redis.client.smembers(key, function(error:Dynamic, arrayOfStrings:Dynamic):Void {
 			callback(error, deserializeArray(arrayOfStrings));
