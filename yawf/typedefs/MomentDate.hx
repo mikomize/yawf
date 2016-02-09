@@ -4,6 +4,7 @@ package yawf.typedefs;
 extern class MomentDate {
 	function new(timestamp:Int);
 	function unix():Int;
+	function valueOf():Int;
 	function set(what:String, amount:Int):MomentDate;
 	function get(what:String):Int;
 	function tz(timezone:String):MomentDate;
