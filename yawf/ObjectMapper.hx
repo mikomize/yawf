@@ -67,12 +67,35 @@ class ObjectMapper
 				var classInfo:ClassInfo = Reflection.getClassInfo(c);
 				var fields:Array<ClassFieldInfo> = classInfo.getFieldsByMeta("param");
 				for (field in fields) {
-
 					var fieldName:String = field.name;
 					if (field.getMeta("param").length > 0) {
 						fieldName = field.getMeta("param")[0];
 					}
 					var fieldData:Dynamic = Reflect.field(data, fieldName);
+
+					if (field.getMeta("dynamic") != null) {
+						var targetCollection:String = null;
+						if (field.getMeta("dynamic").length > 0) {
+							targetCollection = field.getMeta("dynamic")[0];
+						}
+						if (targetCollection == "map") {
+							var dynamicMap:Map<String, Dynamic> = new Map<String, Dynamic>();
+							for (mapField in Reflect.fields(fieldData)) {
+								dynamicMap[mapField] = Reflect.field(fieldData, mapField);
+							}
+							Reflect.setField(obj, field.name, dynamicMap);
+						} else if (targetCollection == "array") {
+							var dynamicArray:Array<Dynamic> = [];
+							for (arrayItem in cast(fieldData, Array<Dynamic>)) {
+								dynamicArray.push(arrayItem);
+							}
+							Reflect.setField(obj, field.name, dynamicArray);
+						} else {
+							Reflect.setField(obj, field.name, data);
+						}
+						continue;
+					}
+
 					var notNull:Bool = field.getMeta("notNull") != null;
 
 					if (!notNull &&  data != null && !Reflect.hasField(data, fieldName)) {
@@ -135,6 +158,12 @@ class ObjectMapper
 						fieldName = field.getMeta("param")[0];
 					}
 					var fieldData:Dynamic = Reflect.field(obj, field.name);
+
+					if (field.getMeta("dynamic") != null) {
+						Reflect.setField(res, fieldName, fieldData);
+						continue;
+					}
+					
 					if (field.getMeta("skipIfNull") == null || fieldData != null) {
 						Reflect.setField(res, fieldName, toPlainObject(fieldData, field.type));
 					}
