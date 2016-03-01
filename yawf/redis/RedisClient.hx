@@ -47,9 +47,9 @@ typedef RedisClient = {
   function decr(k:String,cb:IntegerReply):Void;
   function decrby(k:String,by:Int,cb:IntegerReply):Void;
   function setnx(k:String,v:String,cb:Err->Bool->Void):Void;
-  function mset(ks:Array<Dynamic>,cb:Err->Bool->Void):Void;
+  function mset(k:Array<Dynamic>,cb:Err->Bool->Void):Void;
   function msetnx(ks:Array<Dynamic>,cb:Err->Bool->Void):Void;
-  function mget(ks:Array<String>,cb:Err->Array<String>->Void):Void;
+  function mget(ks:String,cb:Err->Array<String>->Void):Void;
   function getset(k:String,v:String,cb:StatusReply):Void;
   function append(k:String,v:String,cb:IntegerReply):Void;
   function substr(k:String,s:Int,e:Int,cb:StatusReply):Void;
@@ -101,11 +101,14 @@ typedef RedisClient = {
   function hgetall(k:String,cb:MultiReply):Void;
 
   // sorted sets
+  @:overload(function(k:Array<String>, cb:IntegerReply):Void{})
   @:overload(function(k:String,s:Float,m:String,cb:FloatReply):Void{})
   function zadd(k:String,s:Int,m:String,cb:IntegerReply):Void;
 
+  @:overload(function(k:Array<String>, cb:IntegerReply):Void{})
   @:overload(function(k:String,m:String,cb:FloatReply):Void{})
   function zrem(k:String,m:String,cb:IntegerReply):Void;
+
 
   @:overload(function(k:String,i:Float,m:String,cb:FloatReply):Void{})
   function zincrby(k:String,i:Int,m:String,cb:IntegerReply):Void;
@@ -117,10 +120,12 @@ typedef RedisClient = {
   function zrange(k:String,s:Int,e:Int,?scores:Bool,cb:MultiReply):Void;
   
   function zrevrange(k:String,s:Int,e:Int,cb:MultiReply):Void;
-  function zrangebyscore(k:String,min:String,max:String, ?w:String, ?l:String, ?offest:Int, ?count:Int, cb:MultiReply):Void;
+  @:overload(function(k:String,min:String,max:String,cb:MultiReply):Void {})
+  @:overload(function(k:String,min:String,max:String, ?w:String,cb:MultiReply):Void {})
+  function zrangebyscore(k:String,min:String,max:String, w:String, l:String, offest:Int, count:Int, cb:MultiReply):Void;
   function zrevrangebyscore(k:String,min:String,max:String, ?w:String, ?l:String, ?offest:Int, ?count:Int, cb:MultiReply):Void;
   function zremrangebyrank(k:String,s:Int,e:Int,cb:IntegerReply):Void;
-  function zremrangebyscore(k:String,min:Int,max:Int,cb:IntegerReply):Void;
+  function zremrangebyscore(k:String,min:String,max:String,cb:IntegerReply):Void;
   function zcard(k:String,cb:IntegerReply):Void;
   function zscore(k:String,e:String,cb:BulkReply):Void;
   function zunionstore(prms:Array<Dynamic>,cb:IntegerReply):Void;
