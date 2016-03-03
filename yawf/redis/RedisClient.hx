@@ -119,11 +119,13 @@ typedef RedisClient = {
   @:overload(function(k:String,s:Float,e:Float,?scores:Bool,cb:MultiReply):Void {})
   function zrange(k:String,s:Int,e:Int,?scores:Bool,cb:MultiReply):Void;
   
+  @:overload(function(k:String,s:Int,e:Int, ?w:String, cb:MultiReply):Void {})
   function zrevrange(k:String,s:Int,e:Int,cb:MultiReply):Void;
   @:overload(function(k:String,min:String,max:String,cb:MultiReply):Void {})
   @:overload(function(k:String,min:String,max:String, ?w:String,cb:MultiReply):Void {})
   function zrangebyscore(k:String,min:String,max:String, w:String, l:String, offest:Int, count:Int, cb:MultiReply):Void;
-  function zrevrangebyscore(k:String,min:String,max:String, ?w:String, ?l:String, ?offest:Int, ?count:Int, cb:MultiReply):Void;
+  @:overload(function(k:String,min:String,max:String, ?w:String,cb:MultiReply):Void {})
+  function zrevrangebyscore(k:String,min:String,max:String, w:String, l:String, offest:Int, count:Int, cb:MultiReply):Void;
   function zremrangebyrank(k:String,s:Int,e:Int,cb:IntegerReply):Void;
   function zremrangebyscore(k:String,min:String,max:String,cb:IntegerReply):Void;
   function zcard(k:String,cb:IntegerReply):Void;

@@ -94,6 +94,12 @@ class RankingKey<T> extends RedisKey {
 		});
 	}
 
+	public function revRange(start:Int, end:Int, callback:Array<Pair<T, Int>> -> Void) {
+		redis.client.zrevrange(key, start, end, "WITHSCORES", function (err:Dynamic, res:Array<Dynamic>) {
+			callback(format(res));
+		});
+	}
+
 	public function getAllReversed(callback:Array<Pair<T, Int>> -> Void) {
 		redis.client.zrevrangebyscore(key, '+inf', '-inf', "WITHSCORES", "LIMIT", 0, -1, function (err:Dynamic, res:Array<Dynamic>) {
 			callback(format(res));
