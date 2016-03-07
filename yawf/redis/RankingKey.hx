@@ -83,7 +83,7 @@ class RankingKey<T> extends RedisKey {
 	}
 
 	public function revRangeByScore(max:Int, min:Int, offset:Int, count:Int, callback:Array<Pair<T, Int>> -> Void) {
-		redis.client.zrangebyscore(key, Std.string(max), Std.string(min), "WITHSCORES", "LIMIT", offset, count, function (err:Dynamic, res:Array<Dynamic>) {
+		redis.client.zrevrangebyscore(key, Std.string(max), Std.string(min), "WITHSCORES", "LIMIT", offset, count, function (err:Dynamic, res:Array<Dynamic>) {
 			callback(format(res));
 		});
 	}
