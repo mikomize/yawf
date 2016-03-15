@@ -19,6 +19,12 @@ class RedisListKey<T> extends RedisKey
 		super(key);
 	}
 
+	public function trim(start:Int, stop:Int, cb:Void->Void) {
+		redis.client.ltrim(key, start, stop, function (err, res) {
+			cb();
+		});
+	}
+
 	public function lpush(elem:T, callback:Void -> Void) {
 		lpushMulti([elem], callback);
 	}
