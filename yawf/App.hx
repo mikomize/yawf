@@ -128,7 +128,8 @@ class App
 		} else {
 			cb(res);
 		}
-	}
+	}		
+
 
 	//@see https://github.com/flatiron/winston
 	//@see https://github.com/indexzero/winston-syslog
@@ -173,6 +174,10 @@ class App
 		}
 		
 		express = Type.createInstance(Node.require("express"), []);
+
+		if (conf.get("useCors")) {
+			express.use(Node.require("cors")());
+		}
 
 		var bodyParser = Node.require('body-parser');
 		var compress = Node.require('compression');
