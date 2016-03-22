@@ -181,4 +181,8 @@ class Util
  		return Math.floor(Date.now().getTime());
  	}
 
+ 	public static function clamp(v:Int, min:Int, max:Int):Int{
+ 		return Std.int(Math.max(min, Math.min(max, v)));
+ 	}
+
 }	
