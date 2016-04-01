@@ -49,7 +49,7 @@ typedef RedisClient = {
   function setnx(k:String,v:String,cb:Err->Bool->Void):Void;
   function mset(k:Array<Dynamic>,cb:Err->Bool->Void):Void;
   function msetnx(ks:Array<Dynamic>,cb:Err->Bool->Void):Void;
-  function mget(ks:String,cb:Err->Array<String>->Void):Void;
+  function mget(ks:Array<String>,cb:Err->Array<String>->Void):Void;
   function getset(k:String,v:String,cb:StatusReply):Void;
   function append(k:String,v:String,cb:IntegerReply):Void;
   function substr(k:String,s:Int,e:Int,cb:StatusReply):Void;

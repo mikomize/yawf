@@ -64,6 +64,28 @@ class RedisListKey<T> extends RedisKey
 		});
 	}
 
+	public function lpopRecursive(res:Array<T>, cb:Array<T> -> Void) {
+		lpop(function (item:T) {
+			if (item != null) {
+				res.push(item);
+				lpopRecursive(res, cb);
+			} else {
+				cb(res);
+			}
+		});
+	}
+
+	public function rpopRecursive(res:Array<T>, cb:Array<T> -> Void) {
+		rpop(function (item:T) {
+			if (item != null) {
+				res.push(item);
+				rpopRecursive(res, cb);
+			} else {
+				cb(res);
+			}
+		});
+	}
+
 	public function rpop(callback:T -> Void) {
 		redis.client.rpop(key, function (err:Dynamic, res:String) {
 			if (res == null) {
