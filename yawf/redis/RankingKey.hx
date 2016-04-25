@@ -110,6 +110,12 @@ class RankingKey<T> extends RedisKey {
 		redis.client.zcard(key, callback);
 	}
 
+	public function getCount(min:Int, max:Int, callback:Int -> Void) {
+		redis.client.zcount(key, min, max, function (err, res:Int) {
+			callback(res);
+		});
+	}
+
 	private function format(res:Array<Dynamic>):Array<Pair<T, Int>> {
 		var tmp:Array<Pair<T, Int>> = new Array<Pair<T, Int>>();
 		while (res.length != 0) {

@@ -130,6 +130,7 @@ typedef RedisClient = {
   function zremrangebyscore(k:String,min:String,max:String,cb:IntegerReply):Void;
   function zcard(k:String,cb:IntegerReply):Void;
   function zscore(k:String,e:String,cb:BulkReply):Void;
+  function zcount(k:String, min:Int, max:Int, cb:IntegerReply):Void;
   function zunionstore(prms:Array<Dynamic>,cb:IntegerReply):Void;
   function zinterstore(prms:Array<Dynamic>,cb:IntegerReply):Void;
   function sort(prms:Array<Dynamic>,cb:MultiReply):Void;
