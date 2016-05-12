@@ -49,6 +49,12 @@ class App
 		};
 	}
 
+	private function setStaticCustomHeadersHandler(params:Dynamic) {
+		params.setHeaders = function (res, path) {
+			logger.verbose("[served static] " + path);
+		};
+	}
+
     //@see https://github.com/expressjs/serve-static/blob/master/index.js
 	private function setStatics():Void {
 		logger.info("Setting statics");
@@ -70,13 +76,15 @@ class App
 						if (objUser == null || objUser.name != auth.login || objUser.pass != auth.pass) {
 					        res.set("WWW-Authenticate", "Basic realm=Authorization Required");
 					        untyped res.status(401).end();
-					    } else { 
+					    } else {
 					    	next();
 					    }
 
 					});
 				}
 				logger.info("[ " + label + " ] param " + info.params);
+				info.params = info.params == null ? {} : info.params;
+				setStaticCustomHeadersHandler(info.params);
 				express.use(uri, serve(resolvedPath, info.params));
 			}
 		}
