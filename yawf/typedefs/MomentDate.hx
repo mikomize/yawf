@@ -26,6 +26,8 @@ extern class MomentDate {
 
 	@:overload(function(day:Int):MomentDate{})
 	function isoWeekday():Int;
+	
+	function isoWeek():Int;
 
 	function weekday():Int;
 
