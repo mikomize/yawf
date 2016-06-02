@@ -187,5 +187,9 @@ class ObjectMapper
 		return Json.stringify(toPlainObject(obj, t));
 	}
 
+	@:generic public static function deepCopy<T>(obj:T, t:TypeEnum):T {
+		return fromJsonUntyped(toJson(obj), t);
+	}
+
 
 }
