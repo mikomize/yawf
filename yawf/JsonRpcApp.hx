@@ -20,8 +20,8 @@ class JsonRpcApp extends App
 
 		var serviceName:String = classInfo.meta.get("service")[0];
 
-		var startFunc:ClassFieldInfo = classInfo.getFieldsByMeta("start").shift();
-		var beforeFunc:ClassFieldInfo = classInfo.getFieldsByMeta("before").shift();
+		var startFunc:ClassFieldInfo = classInfo.getFieldsByMeta("start").pop();
+		var beforeFunc:ClassFieldInfo = classInfo.getFieldsByMeta("before").pop();
 
 		var endpointsFuncs:Array<ClassFieldInfo> = classInfo.getFieldsByMeta("endpoint");
 
